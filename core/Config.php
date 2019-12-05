@@ -19,7 +19,7 @@ class Config
             $this->configurate[key($tempArray)] = $tempArray;
         }
     }
-    public function getInstance()
+    public static function getInstance()
     {
         if (empty(self::$instance)) {
             self::$instance = new self();
