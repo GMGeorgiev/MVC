@@ -2,6 +2,8 @@
 
 namespace Core\Config;
 
+use Exception;
+
 class Config
 {
     private static $instance;
@@ -14,9 +16,13 @@ class Config
 
     private function init()
     {
-        foreach (glob("../config/*.php") as $config) {
-            $tempArray = include_once($config);
-            $this->configurate[key($tempArray)] = $tempArray;
+        try {
+            foreach (glob("../config/*.php") as $config) {
+                $tempArray = include_once($config);
+                $this->configurate[key($tempArray)] = $tempArray;
+            }
+        } catch (Exception $e) {
+            echo 'Folder not found ', $e->getMessage(), "\n";
         }
     }
     public static function getInstance()
@@ -26,7 +32,7 @@ class Config
         }
         return self::$instance;
     }
-    public function getSettings($key)
+    public function getSetting($key)
     {
         if ($this->configuration[$key]) {
             return $this->configuration[$key];
@@ -35,4 +41,3 @@ class Config
         }
     }
 }
-
