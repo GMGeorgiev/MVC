@@ -2,10 +2,10 @@
 
 return [
     'registry' => [
-        'request' => 'Request',
-        'router' => 'Router',
-        'config' => 'config',
-        'db' => 'Database',
-        'response' => 'Response'
+        'request',
+        'router',
+        'config',
+        'db',
+        'response'
     ]
 ];
