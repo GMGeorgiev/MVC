@@ -5,7 +5,7 @@ namespace Core\Config;
 class Config
 {
     private static $instance;
-    public $configurate = array();
+    public $configuration = array();
 
     private function __construct()
     {
@@ -28,8 +28,8 @@ class Config
     }
     public function getSettings($key)
     {
-        if ($this->configurate[$key]) {
-            return $this->configurate[$key];
+        if ($this->configuration[$key]) {
+            return $this->configuration[$key];
         } else {
             throw new \Exception("Config Not Found");
         }
