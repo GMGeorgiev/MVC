@@ -2,9 +2,12 @@
 
 namespace Core\Config;
 
-use Exception;
+include_once('ConfigInterface.php');
 
-class Config
+use Exception;
+use Core\ConfigInterface\ConfigInterface;
+
+class Config implements ConfigInterface
 {
     public $configuration = array();
 

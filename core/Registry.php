@@ -2,10 +2,13 @@
 
 namespace Core\Registry;
 
+use Core\ConfigInterface\ConfigInterface;
+
 class Registry
 {
     private static $_instances = array();
-    private function __construct() {
+    private function __construct()
+    {
         // do nothing
     }
 
@@ -18,10 +21,17 @@ class Registry
     }
     public static function set($key, $instance = null)
     {
-        if (!in_array($key, self::getAllowedKeys())) {
+        if (!in_array($key, array_keys(self::getAllowedKeys()))) {
             throw new \InvalidArgumentException('Invalid key given');
         }
 
+        //validate if class implements proper interface
+        $interface = self::getAllowedKeys()[$key];
+        if (class_implements($instance)[$interface] != $interface) {
+            throw new \InvalidArgumentException('Class ' . $key . ' does not implement ' . $interface);
+        }
+        
+        //set instante in _instances array if properly validated
         self::$_instances[$key] = $instance;
     }
     public static function getAllowedKeys()
