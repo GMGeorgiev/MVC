@@ -1,6 +1,6 @@
 <?php
 
-use Core\Registry as Registry;
+use Core\Registry\Registry;
 include 'Registry.php';
 
 class App
