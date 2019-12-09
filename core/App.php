@@ -1,7 +1,7 @@
 <?php
 
+namespace Core\App;
 use Core\Registry\Registry;
-include 'Registry.php';
 
 class App
 {   private $router;

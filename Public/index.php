@@ -1,9 +1,7 @@
 <?php
-
 use Core\Config\Config;
 use Core\Registry\Registry;
-include '../core/Config.php';
-include '../core/App.php';
+use Core\App\App;
 
 Registry::set('Config', new Config());
 

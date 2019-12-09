@@ -2,8 +2,6 @@
 
 namespace Core\Registry;
 
-use Core\ConfigInterface\ConfigInterface;
-
 class Registry
 {
     private static $_instances = array();
