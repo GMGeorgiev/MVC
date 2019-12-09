@@ -1,11 +1,9 @@
 <?php
-
 use Core\Config\Config;
 use Core\Registry\Registry;
+use Core\App\App;
 
-include 'Registry.php';
-
-Registry::set("config", new Config());
+Registry::set('Config', new Config());
 
 $app = App::getInstance();
 $app->run();

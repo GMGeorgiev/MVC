@@ -1,7 +1,7 @@
 <?php
 
-use Core\Registry as Registry;
-include 'Registry.php';
+namespace Core\App;
+use Core\Registry\Registry;
 
 class App
 {   private $router;

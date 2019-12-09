@@ -1,10 +1,10 @@
 <?php
 
 namespace Core\Config;
-
 use Exception;
+use Core\ConfigInterface\ConfigInterface;
 
-class Config
+class Config implements ConfigInterface
 {
     public $configuration = array();
 
@@ -24,7 +24,7 @@ class Config
             echo 'Folder not found ', $e->getMessage(), "\n";
         }
     }
-    public function getSetting($key)
+    public function getProperty($key)
     {
         if ($this->configuration[$key]) {
             return $this->configuration[$key];
