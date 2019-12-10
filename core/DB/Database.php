@@ -60,8 +60,4 @@ class Database implements DatabaseInterface
     {
         return $this->con;
     }
-    public function close()
-    {
-        mysqli_close($this->con);
-    }
 }
