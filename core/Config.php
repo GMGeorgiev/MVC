@@ -6,7 +6,7 @@ use Core\ConfigInterface\ConfigInterface;
 
 class Config implements ConfigInterface
 {
-    public $configuration = array();
+    private $configuration = array();
 
     public function __construct()
     {
