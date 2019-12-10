@@ -1,11 +1,9 @@
 <?php
 
 return [
-    'registry' => [
-        'request',
-        'router',
-        'config',
-        'db',
-        'response'
-    ]
+    //'Request' => 'RequestInterface',
+    //'Router' => 'RouterInterface',
+    'Config' => 'Core\ConfigInterface\ConfigInterface',
+    //'Database' => 'DatabaseInterface',
+    //'Response' => 'ResponseInterface'
 ];
