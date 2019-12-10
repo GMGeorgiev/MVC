@@ -2,9 +2,10 @@
 
 namespace Core\DB\Database;
 
-use Core\Config\Config;
 use Core\Registry\Registry;
 use Core\DB\Database\DatabaseInterface;
+use PDO;
+use PDOException;
 
 class Database implements DatabaseInterface
 {
@@ -14,22 +15,22 @@ class Database implements DatabaseInterface
     {
         $this->connect();
     }
-    public function getDBName()
+    private function getDBName()
     {
         $dbName = Registry::get('Config')->getProperty('DB_NAME');
         return $dbName;
     }
-    public function getDBHost()
+    private function getDBHost()
     {
         $dbHost = Registry::get('Config')->getProperty('DB_HOST');
         return $dbHost;
     }
-    public function getDBUser()
+    private function getDBUser()
     {
         $dbUser = Registry::get('Config')->getProperty('DB_USER');
         return $dbUser;
     }
-    public function getDBPsswd()
+    private function getDBPsswd()
     {
         $dbPsswd = Registry::get('Config')->getProperty('DB_PSSWD');
         return $dbPsswd;
@@ -38,10 +39,12 @@ class Database implements DatabaseInterface
 
     private function connect()
     {
-        $this->con = new \mysqli($this->getDBHost(), $this->getDBName(), $this->getDBPsswd(), $this->getDBName());
-        if ($this->con->connect_errno) {
-            echo "Failed to connect to MySQL: " . $this->con->connect_error;
-            die();
+        try {
+            $this->con = new PDO("mysql:host={$this->getDBHost()};dbname={$this->getDBName()}", $this->getDBUser(), $this->getDBPsswd());
+            $this->con->setAttribute(PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            echo "Connected successfully";
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
         }
     }
     public static function getInstance()
@@ -57,7 +60,7 @@ class Database implements DatabaseInterface
     {
         return $this->con;
     }
-    public function close($con)
+    public function close()
     {
         mysqli_close($this->con);
     }
