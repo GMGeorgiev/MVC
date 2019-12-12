@@ -4,5 +4,5 @@ namespace Core\ConfigInterface;
 
 interface ConfigInterface
 {
-    public function getSetting($key);
+    public function getProperty($key);
 }

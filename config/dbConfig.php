@@ -3,8 +3,8 @@
 return [
     'database' => [
         'DB_NAME' => 'testDB',
-        'DB_SERVER' => 'localhost',
-        'DB_USERNAME' => 'root',
-        'DB_PASSWORD' => ''
+        'DB_HOST' => 'localhost',
+        'DB_USER' => 'root',
+        'DB_PSSWD' => ''
     ]
 ];
