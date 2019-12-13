@@ -34,17 +34,19 @@ class QueryBuilder
      * @return string $sql returns query as string
      * 
      */
-    protected static function read($table, $params = [])
+    public static function read($table, $params = [], $operator = 'and')
     {
         $conditionString = '';
         $order = '';
         $limit = '';
         if (isset($params['conditions']) && is_array($params['conditions'])) {
-            foreach ($params['conditions'] as $condition) {
-                $conditionString .= ' ' . $condition . ' AND';
+            if ($operator = 'and') {
+                $conditionString = QueryBuilder::whereAnd($params['conditions']);
+            } elseif ($operator = 'or') {
+                $conditionString = QueryBuilder::whereOR($params['conditions']);
+            } else {
+                throw new Exception("Wrong Operator");
             }
-            $conditionString = trim($conditionString);
-            $conditionString = rtrim($conditionString, ' AND');
             $conditionString = " WHERE " . $conditionString;
         } elseif (isset($params['conditions']) && !is_array($params['conditions'])) {
             $conditionString = $params['conditions'];
@@ -59,6 +61,25 @@ class QueryBuilder
         }
         $sql = "SELECT * FROM {$table}{$conditionString}{$order}{$limit}";
         return $sql;
+    }
+
+    public static function whereAnd($conditions)
+    {
+        foreach ($conditions as $condition) {
+            $conditionString .= ' ' . $condition . ' AND';
+        }
+        $conditionString = trim($conditionString);
+        $conditionString = rtrim($conditionString, ' AND');
+        return " WHERE " . $conditionString;
+    }
+    public static function whereOR($conditions)
+    {
+        foreach ($conditions as $condition) {
+            $conditionString .= ' ' . $condition . ' OR';
+        }
+        $conditionString = trim($conditionString);
+        $conditionString = rtrim($conditionString, ' OR');
+        return " WHERE " . $conditionString;
     }
 
     /**
@@ -97,6 +118,6 @@ class QueryBuilder
             return $sql;
         } else {
             throw new Exception("Parameters not passed properly");
-         }
+        }
     }
 }
