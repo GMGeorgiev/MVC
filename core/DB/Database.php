@@ -2,9 +2,6 @@
 
 namespace Core\DB\Database;
 
-require_once('../Registry.php');
-require_once('./DatabaseInterface.php');
-
 use Core\DB\QueryBuilder\QueryBuilder;
 use Core\Registry\Registry;
 use Core\DB\Database\DatabaseInterface;
