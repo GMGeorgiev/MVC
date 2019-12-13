@@ -5,7 +5,9 @@ namespace Core\DB\QueryBuilder;
 class QueryBuilder
 {
     /**
-     * @param string takes tablename as stirng
+     * @param string $table takes tablename as string
+     * @param array $fields accepts an array of fields in $table
+     * @return string $sql returns query as string
      * 
      */
     public static function insert($table, $fields = [])
@@ -24,10 +26,15 @@ class QueryBuilder
         return $sql;
     }
 
+    /**
+     * @param string $table takes tablename as string
+     * @param array $params accepts an associative array of fields in $table where conditions=>what is selected, order=>what to order by and limit=>put constraints
+     * @return string $sql returns query as string
+     * 
+     */
     protected static function read($table, $params = [])
     {
         $conditionString = '';
-        $bind = [];
         $order = '';
         $limit = '';
         if (isset($params['conditions'])) {
@@ -44,10 +51,6 @@ class QueryBuilder
                 $conditionString = " WHERE " . $conditionString;
             }
         }
-        // Bind
-        if (array_key_exists('bind', $params)) {
-            $bind = $params['bind'];
-        }
         // Order
         if (array_key_exists('order', $params)) {
             $order = ' ORDER BY ' . $params['order'];
@@ -60,6 +63,13 @@ class QueryBuilder
         return $sql;
     }
 
+    /**
+     * @param string $table takes tablename as string
+     * @param int $prKey primary key of the record
+     * @param array $fields accepts an array of fields in $table
+     * @return string $sql returns query as string
+     * 
+     */
     public static function update($table, $prKey, $fields = [])
     {
         $fieldString = '';
@@ -74,6 +84,10 @@ class QueryBuilder
         return $sql;
     }
 
+    /**
+     * @param string $table takes tablename as string
+     * @param int $prKey primary key of the record to delete
+     */
     public static function delete($table, $prKey)
     {
         $sql = "DELETE FROM {$table} WHERE prKey={$prKey}";
