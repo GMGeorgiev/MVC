@@ -4,6 +4,7 @@ namespace Core\DB\Database;
 
 use Core\Registry\Registry;
 use Core\DB\Database\DatabaseInterface;
+use Exception;
 use PDO;
 use PDOException;
 
@@ -11,6 +12,8 @@ class Database implements DatabaseInterface
 {
     private static $instance = null;
     private $con;
+    private $result;
+
     private function __construct()
     {
         $this->connect();
@@ -59,5 +62,16 @@ class Database implements DatabaseInterface
     public function getConnection()
     {
         return $this->con;
+    }
+
+    public function query($sql)
+    {
+        $query = $this->con->prepare($sql);
+        if ($query->execute()) {
+            $this->result = $query->fetchAll();
+            return $this->result;
+        } else {
+            throw new Exception("Query Execution Failed");
+         }
     }
 }
