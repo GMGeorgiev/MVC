@@ -37,19 +37,15 @@ class QueryBuilder
         $conditionString = '';
         $order = '';
         $limit = '';
-        if (isset($params['conditions'])) {
-            if (is_array($params['conditions'])) {
-                foreach ($params['conditions'] as $condition) {
-                    $conditionString .= ' ' . $condition . ' AND';
-                }
-                $conditionString = trim($conditionString);
-                $conditionString = rtrim($conditionString, ' AND');
-            } else {
-                $conditionString = $params['conditions'];
+        if (isset($params['conditions']) && is_array($params['conditions'])) {
+            foreach ($params['conditions'] as $condition) {
+                $conditionString .= ' ' . $condition . ' AND';
             }
-            if ($conditionString != '') {
-                $conditionString = " WHERE " . $conditionString;
-            }
+            $conditionString = trim($conditionString);
+            $conditionString = rtrim($conditionString, ' AND');
+            $conditionString = " WHERE " . $conditionString;
+        } elseif (isset($params['conditions']) && !is_array($params['conditions'])) {
+            $conditionString = $params['conditions'];
         }
         // Order
         if (array_key_exists('order', $params)) {
@@ -80,7 +76,7 @@ class QueryBuilder
         }
         $fieldString = trim($fieldString);
         $fieldString = rtrim($fieldString, ',');
-        $sql = "UPDATE {$table} SET {$fieldString} WHERE priKey={$prKey}";
+        $sql = "UPDATE {$table} SET {$fieldString} WHERE id={$prKey}";
         return $sql;
     }
 
@@ -90,7 +86,7 @@ class QueryBuilder
      */
     public static function delete($table, $prKey)
     {
-        $sql = "DELETE FROM {$table} WHERE prKey={$prKey}";
+        $sql = "DELETE FROM {$table} WHERE id={$prKey}";
         return $sql;
     }
 }

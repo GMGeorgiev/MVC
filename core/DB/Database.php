@@ -68,11 +68,11 @@ class Database implements DatabaseInterface
     public function query($sql, $params=[])
     {
         $query = $this->con->prepare($sql);
-        $x = 1;
+        $indexedPosition = 1;
         if(count($params)) {
           foreach ($params as $param) {
-            $this->query->bindValue($x, $param);
-            $x++;
+            $this->query->bindValue($indexedPosition, $param);
+            $indexedPosition++;
           }
         }
         if ($query->execute()) {
