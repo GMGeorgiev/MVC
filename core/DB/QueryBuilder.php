@@ -2,6 +2,8 @@
 
 namespace Core\DB\QueryBuilder;
 
+use Exception;
+
 class QueryBuilder
 {
     /**
@@ -68,16 +70,20 @@ class QueryBuilder
      */
     public static function update($table, $prKey, $fields = [])
     {
-        $fieldString = '';
-        $values = [];
-        foreach ($fields as $field => $value) {
-            $fieldString .= ' ' . $field . '=?,';
-            $values[] = $value;
+        if (!empty($table) && !empty($prKey) && !empty($fields)) {
+            $fieldString = '';
+            $values = [];
+            foreach ($fields as $field => $value) {
+                $fieldString .= ' ' . $field . '=?,';
+                $values[] = $value;
+            }
+            $fieldString = trim($fieldString);
+            $fieldString = rtrim($fieldString, ',');
+            $sql = "UPDATE {$table} SET {$fieldString} WHERE id={$prKey}";
+            return $sql;
+        } else {
+            throw new Exception("Parameters not passed properly");
         }
-        $fieldString = trim($fieldString);
-        $fieldString = rtrim($fieldString, ',');
-        $sql = "UPDATE {$table} SET {$fieldString} WHERE id={$prKey}";
-        return $sql;
     }
 
     /**
@@ -86,7 +92,11 @@ class QueryBuilder
      */
     public static function delete($table, $prKey)
     {
-        $sql = "DELETE FROM {$table} WHERE id={$prKey}";
-        return $sql;
+        if (!empty($table) && !empty($prKey)) {
+            $sql = "DELETE FROM {$table} WHERE id={$prKey}";
+            return $sql;
+        } else {
+            throw new Exception("Parameters not passed properly");
+         }
     }
 }
