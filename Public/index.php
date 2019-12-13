@@ -9,7 +9,6 @@ use Core\DB\Database\Database;
 Registry::set('Config', new Config());
 Registry::set('Database', Database::getInstance());
 
-
 //Boot App
 $app = App::getInstance();
 $app->run();

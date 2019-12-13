@@ -2,6 +2,10 @@
 
 namespace Core\DB\Database;
 
+require_once('../Registry.php');
+require_once('./DatabaseInterface.php');
+
+use Core\DB\QueryBuilder\QueryBuilder;
 use Core\Registry\Registry;
 use Core\DB\Database\DatabaseInterface;
 use Exception;
@@ -64,9 +68,16 @@ class Database implements DatabaseInterface
         return $this->con;
     }
 
-    public function query($sql)
+    public function query($sql, $params=[])
     {
         $query = $this->con->prepare($sql);
+        $x = 1;
+        if(count($params)) {
+          foreach ($params as $param) {
+            $this->query->bindValue($x, $param);
+            $x++;
+          }
+        }
         if ($query->execute()) {
             $this->result = $query->fetchAll();
             return $this->result;
