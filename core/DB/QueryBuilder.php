@@ -40,7 +40,7 @@ class QueryBuilder
         $order = '';
         $limit = '';
         if (isset($params['conditions']) && is_array($params['conditions'])) {
-            if ($operator = 'and') {
+            if (strtolower($operator) == 'and') {
                 $conditionString = QueryBuilder::whereAnd($params['conditions']);
             } elseif ($operator = 'or') {
                 $conditionString = QueryBuilder::whereOR($params['conditions']);
