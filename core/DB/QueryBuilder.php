@@ -83,23 +83,34 @@ class QueryBuilder
     }
     public function where(...$args)
     {
-        $this->query = $this->query . " " . "WHERE";
-        foreach ($args as $value) {
-            $this->query = $this->query . " " . $value;
+        if (isset($args)) {
+            $this->query = $this->query . " " . "WHERE";
+            foreach ($args as $value) {
+                $this->query = $this->query . " " . $value;
+            }
+        } else {
+            throw new Exception("Arguments not set");
         }
         return $this;
     }
     public function whereAnd(string $param): string
     {
-        return "{$param} AND";
+        if (isset($param)) {
+            return "{$param} AND";
+        } else {
+            throw new Exception("Parameter not set");
+        }
     }
     public function whereOr(string $param): string
     {
-        return "{$param} OR";
+        if (isset($param)) {
+            return "{$param} OR";
+        } else {
+            throw new Exception("Parameter not set");
+        }
     }
     public function getQuery()
     {
         return $this->query;
     }
 }
-
