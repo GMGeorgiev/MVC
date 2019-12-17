@@ -13,20 +13,27 @@ class QueryBuilder
     }
     public function select(string $tableName, $params = [])
     {
+        $params = array_map(function ($val) {
+            return "'{$val}'";
+        }, $params);
         $paramsString = '';
         if (is_array($params)) {
-            $paramsString = join(",", $params);
+            $paramsString = implode(",", $params);
         } elseif (!is_array($params)) {
             $paramsString = $params;
         }
         $this->query = $this->query . "SELECT {$paramsString} FROM {$tableName}";
         return $this;
     }
-    public function join(string $typeofJoin = "JOIN", $tableName2, string $param1, string $param2)
+    public function join($tableName, string $param1, string $param2, string $typeofJoin = "JOIN")
     {
-        if (isset($tableName2) && isset($param1) && isset($param2)) {
+        if (isset($tableName) && isset($param1) && isset($param2)) {
             $typeofJoin = strtoupper($typeofJoin);
-            $this->query = $this->query . " " . "{$typeofJoin} {$tableName2} ON {$param1} = {$param2}";
+            if ($this->validateQuery('select')) {
+                $this->query = $this->query . " " . "{$typeofJoin} {$tableName} ON {$param1} = {$param2}";
+            } else {
+                throw new Exception("Cannot use join withot a SELECT statement");
+            }
         } else {
             throw new Exception("Parameters not properly set");
         }
@@ -44,11 +51,18 @@ class QueryBuilder
     public function values($values = [])
     {
         if (isset($values)) {
-            $columnNames = join(", ", array_keys($values));
-            $valuesString = join(", ", array_map(function ($val) {
+            $newValues = array_map(function ($val) {
+                return "'{$val}'";
+            }, array_keys($values));
+            $columnNames = implode(", ", $newValues);
+            $valuesString = implode(", ", array_map(function ($val) {
                 return "?";
-            }, array_values($values)));
-            $this->query = $this->query . " ({$columnNames}) VALUES ({$valuesString})";
+            }, array_values($newValues)));
+            if ($this->validateQuery('insert')) {
+                $this->query = $this->query . " ({$columnNames}) VALUES ({$valuesString})";
+            } else {
+                throw new Exception("Cannot put VALUES on a query without INSERT statement");
+            }
         } else {
             throw new Exception("Values not set");
         }
@@ -63,10 +77,14 @@ class QueryBuilder
         }
         return $this;
     }
-    public function set($param1, $param2)
+    public function set($columnName, $value)
     {
-        if (isset($param1) && isset($param2)) {
-            $this->query = $this->query . " " . "SET {$param1} = {$param2}";
+        if (isset($columnName) && isset($value)) {
+            if ($this->validateQuery('update')) {
+                $this->query = $this->query . " " . "SET {$columnName} = {$value}";
+            } else {
+                throw new Exception("Cannot use SET without an UPDATE statement!");
+            }
         } else {
             throw new Exception("Parameters not properly set");
         }
@@ -84,9 +102,13 @@ class QueryBuilder
     public function where(...$args)
     {
         if (isset($args)) {
-            $this->query = $this->query . " " . "WHERE";
-            foreach ($args as $value) {
-                $this->query = $this->query . " " . $value;
+            if ($this->validateQuery('select', 'insert', 'update', 'delete')) {
+                $this->query = $this->query . " " . "WHERE ";
+                foreach ($args as $value) {
+                    $this->query = $this->query . " " . $value;
+                }
+            } else {
+                throw new Exception("Cannot use WHERE clause without a Query Statement");
             }
         } else {
             throw new Exception("Arguments not set");
@@ -96,7 +118,7 @@ class QueryBuilder
     public function whereAnd(string $param): string
     {
         if (isset($param)) {
-            return "{$param} AND";
+            return "AND {$param}";
         } else {
             throw new Exception("Parameter not set");
         }
@@ -104,10 +126,43 @@ class QueryBuilder
     public function whereOr(string $param): string
     {
         if (isset($param)) {
-            return "{$param} OR";
+            return "OR {$param}";
         } else {
             throw new Exception("Parameter not set");
         }
+    }
+    private function validateQuery(...$args)
+    {
+        $result = true;
+        foreach ($args as $value) {
+            switch ($value) {
+                case 'select':
+                    if (strpos($this->query, 'SELECT') !== 0) {
+                        $result = false;
+                    }
+                    break;
+                case 'insert':
+                    if (strpos($this->query, 'INSERT') !== 0) {
+                        $result = false;
+                    }
+                    break;
+                case 'update':
+                    if (strpos($this->query, 'UPDATE') !== 0) {
+                        $result = false;
+                    }
+                    break;
+                case 'delete':
+                    if (strpos($this->query, 'DELETE') !== 0) {
+                        $result = false;
+                    }
+                    break;
+                default:
+                    throw new Exception("Invalid statement passed");
+                    break;
+            }
+            if ($result == true) break;
+        }
+        return $result;
     }
     public function getQuery()
     {
