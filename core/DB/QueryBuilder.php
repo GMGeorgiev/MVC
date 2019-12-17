@@ -103,12 +103,3 @@ class QueryBuilder
     }
 }
 
-$queryBuilder = new QueryBuilder();
-$queryBuilder->select('users', $params = ['users.firstname', 'users.lastname'])
-    ->join("INNER JOIN", "departments", "users.userID", "departments.userID")
-    ->where(
-        $queryBuilder->whereAnd('users.firstname = "Georgi"'),
-        $queryBuilder->whereOr('users.email = "georgemartingeorgiev@yahoo.com"'),
-        'lastname = "Georgiev"'
-    );
-echo $queryBuilder->getQuery();
