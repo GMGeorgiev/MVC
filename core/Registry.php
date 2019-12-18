@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Registry;
+namespace core\Registry;
 
 class Registry
 {
@@ -35,7 +35,7 @@ class Registry
     public static function getAllowedKeys()
     {
         $allowedKeys = include('../config/registryConfig.php');
-        return $allowedKeys;
+        return $allowedKeys['registry'];
     }
     public static function erase($key)
     {
