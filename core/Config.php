@@ -1,9 +1,11 @@
 <?php
 
-namespace Core\Config;
-use Exception;
-use Core\ConfigInterface\ConfigInterface;
+namespace core\Config;
 
+use Exception;
+use core\ConfigInterface\ConfigInterface;
+
+require_once('ConfigInterface.php');
 class Config implements ConfigInterface
 {
     private $configuration = array();
@@ -18,18 +20,14 @@ class Config implements ConfigInterface
         try {
             foreach (glob("../config/*.php") as $config) {
                 $tempArray = include_once($config);
-                $this->configurate[key($tempArray)] = $tempArray;
+                $this->configuration[key($tempArray)] = $tempArray[key($tempArray)];
             }
         } catch (Exception $e) {
             echo 'Folder not found ', $e->getMessage(), "\n";
         }
     }
-    public function getProperty($key)
+    public function getProperty($config, $key)
     {
-        if ($this->configuration[$key]) {
-            return $this->configuration[$key];
-        } else {
-            throw new \Exception("Config Not Found");
-        }
+        return $this->configuration[$config][$key];
     }
 }

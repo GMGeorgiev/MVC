@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\DB\Database;
+namespace core\DB\DatabaseInterface;
 
 interface DatabaseInterface{
     public function getConnection();

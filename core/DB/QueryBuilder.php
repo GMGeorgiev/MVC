@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\DB\QueryBuilder;
+namespace core\DB\QueryBuilder;
 use Exception;
 
 class QueryBuilder

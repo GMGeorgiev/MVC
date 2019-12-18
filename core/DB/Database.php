@@ -1,14 +1,16 @@
 <?php
 
-namespace Core\DB\Database;
+namespace core\DB\Database;
 
-use Core\DB\QueryBuilder\QueryBuilder;
-use Core\Registry\Registry;
-use Core\DB\Database\DatabaseInterface;
+use core\DB\QueryBuilder\QueryBuilder;
+use core\Registry\Registry;
+use core\DB\DatabaseInterface\DatabaseInterface;
 use Exception;
 use PDO;
 use PDOException;
 
+
+include_once('DatabaseInterface.php');
 class Database implements DatabaseInterface
 {
     private static $instance = null;
@@ -21,22 +23,22 @@ class Database implements DatabaseInterface
     }
     private function getDBName()
     {
-        $dbName = Registry::get('Config')->getProperty('DB_NAME');
+        $dbName = Registry::get('Config')->getProperty('database','DB_NAME');
         return $dbName;
     }
     private function getDBHost()
     {
-        $dbHost = Registry::get('Config')->getProperty('DB_HOST');
+        $dbHost = Registry::get('Config')->getProperty('database','DB_HOST');
         return $dbHost;
     }
     private function getDBUser()
     {
-        $dbUser = Registry::get('Config')->getProperty('DB_USER');
+        $dbUser = Registry::get('Config')->getProperty('database','DB_USER');
         return $dbUser;
     }
     private function getDBPsswd()
     {
-        $dbPsswd = Registry::get('Config')->getProperty('DB_PSSWD');
+        $dbPsswd = Registry::get('Config')->getProperty('database','DB_PSSWD');
         return $dbPsswd;
     }
 
@@ -65,21 +67,21 @@ class Database implements DatabaseInterface
         return $this->con;
     }
 
-    public function query($sql, $params=[])
+    public function query($sql, $params = [])
     {
         $query = $this->con->prepare($sql);
         $indexedPosition = 1;
-        if(count($params)) {
-          foreach ($params as $param) {
-            $this->query->bindValue($indexedPosition, $param);
-            $indexedPosition++;
-          }
+        if (count($params)) {
+            foreach ($params as $param) {
+                $this->query->bindValue($indexedPosition, $param);
+                $indexedPosition++;
+            }
         }
         if ($query->execute()) {
             $this->result = $query->fetchAll();
             return $this->result;
         } else {
             throw new Exception("Query Execution Failed");
-         }
+        }
     }
 }
