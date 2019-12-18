@@ -4,8 +4,8 @@ function autoloader($className)
 {
     $newClass = explode('\\', $className);
     array_pop($newClass);
-    $className = implode('/', $newClass);
-    $fullPath = dirname(__DIR__) . '/' . $className . '.php';
+    $className = implode(DIRECTORY_SEPARATOR, $newClass);
+    $fullPath = dirname(__DIR__) . DIRECTORY_SEPARATOR . $className . '.php';
     if (file_exists($fullPath)) {
         include $fullPath;
     } else{
