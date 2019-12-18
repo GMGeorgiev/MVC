@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\ConfigInterface;
+namespace core\ConfigInterface;
 
 interface ConfigInterface
 {
-    public function getProperty($key);
+    public function getProperty($config,$key);
 }

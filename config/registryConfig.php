@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'Config' => 'Core\ConfigInterface\ConfigInterface',
-    'Database' => 'Core\DB\Database\DatabaseInterface',
-    //Add services here
+    'registry' => [
+        'Config' => 'core\ConfigInterface\ConfigInterface',
+        'Database' => 'core\DB\DatabaseInterface\DatabaseInterface',
+        //Add services here
+    ]
 ];
-
-

@@ -1,7 +1,7 @@
 <?php
 
-namespace Core\App;
-use Core\Registry\Registry;
+namespace core\App;
+use core\Registry\Registry;
 
 class App
 {   private $router;
@@ -11,8 +11,8 @@ class App
 
     private function __construct()
     {
-        $this->router = $this->getRouter();
-        $this->request = $this->getRequest();
+        //$this->router = $this->getRouter();
+        //$this->request = $this->getRequest();
     }
 
     public static function getInstance(){
@@ -30,7 +30,7 @@ class App
     }
 
     public function run(){
-        $this->router->setRequest($this->reguest);
-        $this->router->callAction();
+        //$this->router->setRequest($this->reguest);
+        //$this->router->callAction();
     }
 }
