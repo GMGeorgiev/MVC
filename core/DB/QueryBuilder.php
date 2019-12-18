@@ -1,7 +1,6 @@
 <?php
 
 namespace Core\DB\QueryBuilder;
-
 use Exception;
 
 class QueryBuilder
@@ -25,12 +24,12 @@ class QueryBuilder
         $this->query = $this->query . "SELECT {$paramsString} FROM {$tableName}";
         return $this;
     }
-    public function join($tableName, string $param1, string $param2, string $typeofJoin = "JOIN")
-    {
-        if (isset($tableName) && isset($param1) && isset($param2)) {
+    public function join($tableName, $onArray = [], string $typeofJoin = "JOIN")
+    {   $onArguments = implode(' AND ', $onArray);
+        if (isset($tableName) && isset($onArray)) {
             $typeofJoin = strtoupper($typeofJoin);
             if ($this->validateQuery('select')) {
-                $this->query = $this->query . " " . "{$typeofJoin} {$tableName} ON {$param1} = {$param2}";
+                $this->query = $this->query . " " . "{$typeofJoin} {$tableName} ON {$onArguments}";
             } else {
                 throw new Exception("Cannot use join withot a SELECT statement");
             }
