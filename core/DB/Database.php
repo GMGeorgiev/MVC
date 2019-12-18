@@ -2,6 +2,7 @@
 
 namespace Core\DB\Database;
 
+use Core\DB\QueryBuilder\QueryBuilder;
 use Core\Registry\Registry;
 use Core\DB\Database\DatabaseInterface;
 use Exception;
@@ -64,9 +65,16 @@ class Database implements DatabaseInterface
         return $this->con;
     }
 
-    public function query($sql)
+    public function query($sql, $params=[])
     {
         $query = $this->con->prepare($sql);
+        $indexedPosition = 1;
+        if(count($params)) {
+          foreach ($params as $param) {
+            $this->query->bindValue($indexedPosition, $param);
+            $indexedPosition++;
+          }
+        }
         if ($query->execute()) {
             $this->result = $query->fetchAll();
             return $this->result;
