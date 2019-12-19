@@ -137,27 +137,27 @@ class QueryBuilder
     }
     private function validateQuery(...$args)
     {
-        $result = true;
+        $result = false;
         foreach ($args as $value) {
             switch ($value) {
                 case 'select':
-                    if (strpos($this->query, 'SELECT') !== 0) {
-                        $result = false;
+                    if (strpos($this->query, 'SELECT') === 0) {
+                        $result = true;
                     }
                     break;
                 case 'insert':
-                    if (strpos($this->query, 'INSERT') !== 0) {
-                        $result = false;
+                    if (strpos($this->query, 'INSERT') === 0) {
+                        $result = true;
                     }
                     break;
                 case 'update':
-                    if (strpos($this->query, 'UPDATE') !== 0) {
-                        $result = false;
+                    if (strpos($this->query, 'UPDATE') === 0) {
+                        $result = true;
                     }
                     break;
                 case 'delete':
-                    if (strpos($this->query, 'DELETE') !== 0) {
-                        $result = false;
+                    if (strpos($this->query, 'DELETE') === 0) {
+                        $result = true;
                     }
                     break;
                 default:
