@@ -28,7 +28,7 @@ class Registry
         if (class_implements($instance)[$interface] != $interface) {
             throw new \InvalidArgumentException('Class ' . $key . ' does not implement ' . $interface);
         }
-        
+
         //set instante in _instances array if properly validated
         self::$_instances[$key] = $instance;
     }
