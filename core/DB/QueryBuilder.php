@@ -11,12 +11,14 @@ class QueryBuilder
     {
         //does nothing...
     }
-    public function select(string $tableName, $params = [])
+    public function select(string $tableName, $params)
     {
         $tableName = "`{$tableName}`";
-        $params = array_map(function ($val) {
-            return "`{$val}`";
-        }, $params);
+        if (is_array($params)) {
+            $params = array_map(function ($val) {
+                return "`{$val}`";
+            }, $params);
+        }
         $paramsString = '';
         if (is_array($params)) {
             $paramsString = implode(",", $params);
@@ -74,18 +76,19 @@ class QueryBuilder
     public function update($tableName)
     {
         if (isset($tableName)) {
-            $tableName = "'{$tableName}'";
+            $tableName = "`{$tableName}`";
             $this->query = $this->query . "UPDATE {$tableName}";
         } else {
             throw new Exception("Table name not set");
         }
         return $this;
     }
-    public function set($columnName, $value)
+    public function set($expressions = [])
     {
-        if (isset($columnName) && isset($value)) {
+        if (isset($expressions)) {
             if ($this->validateQuery('update')) {
-                $this->query = $this->query . " " . "SET {$columnName} = {$value}";
+                $expressions = implode(', ', $expressions);
+                $this->query = $this->query . " SET {$expressions}";
             } else {
                 throw new Exception("Cannot use SET without an UPDATE statement!");
             }
@@ -96,6 +99,7 @@ class QueryBuilder
     }
     public function delete($tableName)
     {
+        $tableName = "`{$tableName}`";
         if (isset($tableName)) {
             $this->query = $this->query . "DELETE FROM {$tableName}";
         } else {
@@ -171,5 +175,9 @@ class QueryBuilder
     public function getQuery()
     {
         return $this->query;
+    }
+    public function deleteQuery(): void
+    {
+        $this->query = "";
     }
 }
