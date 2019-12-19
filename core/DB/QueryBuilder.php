@@ -12,8 +12,9 @@ class QueryBuilder
     }
     public function select(string $tableName, $params = [])
     {
+        $tableName = "`{$tableName}`";
         $params = array_map(function ($val) {
-            return "'{$val}'";
+            return "`{$val}`";
         }, $params);
         $paramsString = '';
         if (is_array($params)) {
@@ -40,6 +41,7 @@ class QueryBuilder
     }
     public function insert($tableName)
     {
+        $tableName = "`{$tableName}`";
         if (isset($tableName)) {
             $this->query = $this->query . "INSERT INTO {$tableName}";
         } else {
@@ -51,7 +53,7 @@ class QueryBuilder
     {
         if (isset($values)) {
             $newValues = array_map(function ($val) {
-                return "'{$val}'";
+                return "`{$val}`";
             }, array_keys($values));
             $columnNames = implode(", ", $newValues);
             $valuesString = implode(", ", array_map(function ($val) {
@@ -70,6 +72,7 @@ class QueryBuilder
     public function update($tableName)
     {
         if (isset($tableName)) {
+            $tableName = "'{$tableName}'";
             $this->query = $this->query . "UPDATE {$tableName}";
         } else {
             throw new Exception("Table name not set");
@@ -102,7 +105,7 @@ class QueryBuilder
     {
         if (isset($args)) {
             if ($this->validateQuery('select', 'insert', 'update', 'delete')) {
-                $this->query = $this->query . " " . "WHERE ";
+                $this->query = $this->query . " " . "WHERE " . "1";
                 foreach ($args as $value) {
                     $this->query = $this->query . " " . $value;
                 }
