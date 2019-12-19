@@ -1,6 +1,7 @@
 <?php
 
 namespace core\DB\QueryBuilder;
+
 use Exception;
 
 class QueryBuilder
@@ -26,7 +27,8 @@ class QueryBuilder
         return $this;
     }
     public function join($tableName, $onArray = [], string $typeofJoin = "JOIN")
-    {   $onArguments = implode(' AND ', $onArray);
+    {
+        $onArguments = implode(' AND ', $onArray);
         if (isset($tableName) && isset($onArray)) {
             $typeofJoin = strtoupper($typeofJoin);
             if ($this->validateQuery('select')) {
