@@ -73,8 +73,8 @@ class Database implements DatabaseInterface
         if ($query->execute($params)) {
             if ($this->resultFlag($sql)) {
                 $this->result = $query->fetchAll(PDO::FETCH_ASSOC);
-            } else{
-                $this->result = "Rows affected: ". $query->rowCount();
+            } else {
+                $this->result = "Rows affected: " . $query->rowCount();
             }
         } else {
             throw new Exception("Query Execution Failed");

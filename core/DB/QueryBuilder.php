@@ -105,9 +105,10 @@ class QueryBuilder
     }
 
     private function formatSetExpression($expressions)
-    {   $formattedExpressions = [];
+    {
+        $formattedExpressions = [];
         foreach ($expressions as $key => $value) {
-            array_push($formattedExpressions, "{$key} = \"{$value}\"");
+            array_push($formattedExpressions, "{$key} = ?");
         }
         $formattedExpressions = implode(', ', $formattedExpressions);
         return $formattedExpressions;

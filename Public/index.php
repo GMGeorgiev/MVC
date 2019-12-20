@@ -12,6 +12,7 @@ use core\Model\Model;
 Registry::set('Config', new Config());
 Registry::set('Database', Database::getInstance());
 
+
 //Boot App
 $app = App::getInstance();
 $app->run();
