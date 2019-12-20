@@ -62,17 +62,17 @@ class Model
         $sql = $this->query
             ->insert($this->table)
             ->values(
-                $this->makeSetExpression('insert')
+                $this->makeExpression('insert')
             )
             ->getQuery();
-        $this->db->query($sql, array_values($this->makeSetExpression('insert')));
+        $this->db->query($sql, array_values($this->makeExpression('insert')));
         $this->query->deleteQuery();
     }
     private function update(): void
     {
         $sql = $this->query
             ->update($this->table)
-            ->set($this->makeSetExpression('update'))
+            ->set($this->makeExpression('update'))
             ->where(
                 $this->query->whereAnd("{$this->prKey} = \"{$this->{$this->prKey}}\"")
             )
@@ -80,7 +80,7 @@ class Model
         $this->db->query($sql);
         $this->query->deleteQuery();
     }
-    private function makeSetExpression(string $queryType)
+    private function makeExpression(string $queryType)
     {
         $properties = get_object_vars($this);
         $expressions = [];
