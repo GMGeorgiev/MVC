@@ -11,6 +11,7 @@ class QueryBuilder
     {
         //does nothing...
     }
+
     public function select(string $tableName, $params)
     {
         $tableName = "`{$tableName}`";
@@ -28,6 +29,7 @@ class QueryBuilder
         $this->query = $this->query . "SELECT {$paramsString} FROM {$tableName}";
         return $this;
     }
+
     public function join($tableName, $onArray = [], string $typeofJoin = "JOIN")
     {
         $onArguments = implode(' AND ', $onArray);
@@ -43,6 +45,7 @@ class QueryBuilder
         }
         return $this;
     }
+
     public function insert($tableName)
     {
         $tableName = "`{$tableName}`";
@@ -53,6 +56,7 @@ class QueryBuilder
         }
         return $this;
     }
+
     public function values($values = [])
     {
         if (isset($values)) {
@@ -73,6 +77,7 @@ class QueryBuilder
         }
         return $this;
     }
+
     public function update($tableName)
     {
         if (isset($tableName)) {
@@ -83,11 +88,12 @@ class QueryBuilder
         }
         return $this;
     }
+
     public function set($expressions = [])
     {
         if (isset($expressions)) {
             if ($this->validateQuery('update')) {
-                $expressions = implode(', ', $expressions);
+                $expressions = $this->formatSetExpression($expressions);
                 $this->query = $this->query . " SET {$expressions}";
             } else {
                 throw new Exception("Cannot use SET without an UPDATE statement!");
@@ -97,6 +103,17 @@ class QueryBuilder
         }
         return $this;
     }
+
+    private function formatSetExpression($expressions)
+    {
+        $formattedExpressions = [];
+        foreach ($expressions as $key => $value) {
+            array_push($formattedExpressions, "{$key} = ?");
+        }
+        $formattedExpressions = implode(', ', $formattedExpressions);
+        return $formattedExpressions;
+    }
+
     public function delete($tableName)
     {
         $tableName = "`{$tableName}`";
@@ -107,6 +124,7 @@ class QueryBuilder
         }
         return $this;
     }
+
     public function where(...$args)
     {
         if (isset($args)) {
@@ -123,6 +141,7 @@ class QueryBuilder
         }
         return $this;
     }
+
     public function whereAnd(string $param): string
     {
         if (isset($param)) {
@@ -131,6 +150,7 @@ class QueryBuilder
             throw new Exception("Parameter not set");
         }
     }
+
     public function whereOr(string $param): string
     {
         if (isset($param)) {
@@ -139,43 +159,24 @@ class QueryBuilder
             throw new Exception("Parameter not set");
         }
     }
+
     private function validateQuery(...$args)
     {
         $result = false;
         foreach ($args as $value) {
-            switch ($value) {
-                case 'select':
-                    if (strpos($this->query, 'SELECT') === 0) {
-                        $result = true;
-                    }
-                    break;
-                case 'insert':
-                    if (strpos($this->query, 'INSERT') === 0) {
-                        $result = true;
-                    }
-                    break;
-                case 'update':
-                    if (strpos($this->query, 'UPDATE') === 0) {
-                        $result = true;
-                    }
-                    break;
-                case 'delete':
-                    if (strpos($this->query, 'DELETE') === 0) {
-                        $result = true;
-                    }
-                    break;
-                default:
-                    throw new Exception("Invalid statement passed");
-                    break;
+            if (strpos($this->query, strtoupper($value)) === 0) {
+                $result = true;
+                break;
             }
-            if ($result == true) break;
         }
         return $result;
     }
+
     public function getQuery()
     {
         return $this->query;
     }
+
     public function deleteQuery(): void
     {
         $this->query = "";
