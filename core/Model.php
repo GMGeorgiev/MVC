@@ -58,41 +58,49 @@ class Model
         $this->db->query($sql);
         $this->query->deleteQuery();
     }
-    private function insert(): void
+    public function insert(): void
     {
         $sql = $this->query
             ->insert($this->table)
             ->values(
-                $this->makeExpression('insert')
+                $this->makeExpression()
             )
             ->getQuery();
-        $this->db->query($sql, array_values($this->makeExpression('insert')));
+        echo $sql;
+        $this->db->query($sql, array_values($this->makeExpression()));
         $this->query->deleteQuery();
     }
-    private function update(): void
+    public function update(): void
     {
         $sql = $this->query
             ->update($this->table)
-            ->set($this->makeExpression('update'))
+            ->set($this->makeExpression())
             ->where(
                 $this->query->whereAnd("{$this->prKey} = \"{$this->{$this->prKey}}\"")
             )
             ->getQuery();
+        echo $sql;
         $this->db->query($sql);
         $this->query->deleteQuery();
     }
-    private function makeExpression(string $queryType)
+    private function isAllowedKey($key)
+    {
+        $notAllowed = ['prKey', 'db', 'table'];
+        $result = false;
+        if ((empty($this->allowedColumns) || in_array($key, $this->allowedColumns)) && !in_array($key, $notAllowed)) {
+            $result = true;
+        }
+        return $result;
+    }
+    private function makeExpression()
     {
         $properties = get_object_vars($this);
         $expressions = [];
         foreach ($properties as $key => $value) {
-            if (!in_array($key,$this->allowedColumns)) {
-                continue;
-            } elseif ($queryType == 'update') {
-                $value = (string) $value;
-                array_push($expressions, "{$key} = \"{$value}\"");
-            } elseif ($queryType == 'insert') {
+            if ($this->isAllowedKey($key)) {
                 $expressions[$key] = $value;
+            } else {
+                continue;
             }
         }
         return $expressions;
