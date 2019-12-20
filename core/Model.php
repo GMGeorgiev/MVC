@@ -7,10 +7,11 @@ use core\Registry\Registry;
 
 class Model
 {
-    protected $db;
-    protected $table;
+    public $db;
+    public $table;
     private $prKey = "id";
-    protected $query;
+    private $allowedColumns = [];
+    public $query;
 
     public function __construct($data = [])
     {
@@ -85,7 +86,7 @@ class Model
         $properties = get_object_vars($this);
         $expressions = [];
         foreach ($properties as $key => $value) {
-            if (is_object($value) || $key == 'table' || $key == 'prKey') {
+            if (!in_array($key,$this->allowedColumns)) {
                 continue;
             } elseif ($queryType == 'update') {
                 $value = (string) $value;
