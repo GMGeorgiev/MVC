@@ -15,7 +15,7 @@ class Database implements DatabaseInterface
 {
     private static $instance = null;
     private $con;
-    private $result;
+    private $result = [];
 
     private function __construct()
     {
@@ -23,22 +23,22 @@ class Database implements DatabaseInterface
     }
     private function getDBName()
     {
-        $dbName = Registry::get('Config')->getProperty('database','DB_NAME');
+        $dbName = Registry::get('Config')->getProperty('database', 'DB_NAME');
         return $dbName;
     }
     private function getDBHost()
     {
-        $dbHost = Registry::get('Config')->getProperty('database','DB_HOST');
+        $dbHost = Registry::get('Config')->getProperty('database', 'DB_HOST');
         return $dbHost;
     }
     private function getDBUser()
     {
-        $dbUser = Registry::get('Config')->getProperty('database','DB_USER');
+        $dbUser = Registry::get('Config')->getProperty('database', 'DB_USER');
         return $dbUser;
     }
     private function getDBPsswd()
     {
-        $dbPsswd = Registry::get('Config')->getProperty('database','DB_PSSWD');
+        $dbPsswd = Registry::get('Config')->getProperty('database', 'DB_PSSWD');
         return $dbPsswd;
     }
 
@@ -48,7 +48,7 @@ class Database implements DatabaseInterface
         try {
             $this->con = new PDO("mysql:host={$this->getDBHost()};dbname={$this->getDBName()}", $this->getDBUser(), $this->getDBPsswd());
             $this->con->setAttribute(PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            echo "Connected successfully";
+            echo "Connected successfully" . '<br/>';
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
@@ -70,18 +70,23 @@ class Database implements DatabaseInterface
     public function query($sql, $params = [])
     {
         $query = $this->con->prepare($sql);
-        $indexedPosition = 1;
-        if (count($params)) {
-            foreach ($params as $param) {
-                $this->query->bindValue($indexedPosition, $param);
-                $indexedPosition++;
+        if ($query->execute($params)) {
+            if ($this->resultFlag($sql)) {
+                $this->result = $query->fetchAll(PDO::FETCH_ASSOC);
+            } else{
+                $this->result = "Rows affected: ". $query->rowCount();
             }
-        }
-        if ($query->execute()) {
-            $this->result = $query->fetchAll();
-            return $this->result;
         } else {
             throw new Exception("Query Execution Failed");
         }
+        return $this->result;
+    }
+    private function resultFlag($sql)
+    {
+        $result = false;
+        if (strpos($sql, 'SELECT') === 0) {
+            $result = true;
+        }
+        return $result;
     }
 }

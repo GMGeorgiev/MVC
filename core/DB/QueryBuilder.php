@@ -1,6 +1,7 @@
 <?php
 
 namespace core\DB\QueryBuilder;
+
 use Exception;
 
 class QueryBuilder
@@ -10,11 +11,14 @@ class QueryBuilder
     {
         //does nothing...
     }
-    public function select(string $tableName, $params = [])
+    public function select(string $tableName, $params)
     {
-        $params = array_map(function ($val) {
-            return "'{$val}'";
-        }, $params);
+        $tableName = "`{$tableName}`";
+        if (is_array($params)) {
+            $params = array_map(function ($val) {
+                return "`{$val}`";
+            }, $params);
+        }
         $paramsString = '';
         if (is_array($params)) {
             $paramsString = implode(",", $params);
@@ -25,7 +29,8 @@ class QueryBuilder
         return $this;
     }
     public function join($tableName, $onArray = [], string $typeofJoin = "JOIN")
-    {   $onArguments = implode(' AND ', $onArray);
+    {
+        $onArguments = implode(' AND ', $onArray);
         if (isset($tableName) && isset($onArray)) {
             $typeofJoin = strtoupper($typeofJoin);
             if ($this->validateQuery('select')) {
@@ -40,6 +45,7 @@ class QueryBuilder
     }
     public function insert($tableName)
     {
+        $tableName = "`{$tableName}`";
         if (isset($tableName)) {
             $this->query = $this->query . "INSERT INTO {$tableName}";
         } else {
@@ -51,7 +57,7 @@ class QueryBuilder
     {
         if (isset($values)) {
             $newValues = array_map(function ($val) {
-                return "'{$val}'";
+                return "`{$val}`";
             }, array_keys($values));
             $columnNames = implode(", ", $newValues);
             $valuesString = implode(", ", array_map(function ($val) {
@@ -70,17 +76,19 @@ class QueryBuilder
     public function update($tableName)
     {
         if (isset($tableName)) {
+            $tableName = "`{$tableName}`";
             $this->query = $this->query . "UPDATE {$tableName}";
         } else {
             throw new Exception("Table name not set");
         }
         return $this;
     }
-    public function set($columnName, $value)
+    public function set($expressions = [])
     {
-        if (isset($columnName) && isset($value)) {
+        if (isset($expressions)) {
             if ($this->validateQuery('update')) {
-                $this->query = $this->query . " " . "SET {$columnName} = {$value}";
+                $expressions = implode(', ', $expressions);
+                $this->query = $this->query . " SET {$expressions}";
             } else {
                 throw new Exception("Cannot use SET without an UPDATE statement!");
             }
@@ -91,6 +99,7 @@ class QueryBuilder
     }
     public function delete($tableName)
     {
+        $tableName = "`{$tableName}`";
         if (isset($tableName)) {
             $this->query = $this->query . "DELETE FROM {$tableName}";
         } else {
@@ -102,7 +111,7 @@ class QueryBuilder
     {
         if (isset($args)) {
             if ($this->validateQuery('select', 'insert', 'update', 'delete')) {
-                $this->query = $this->query . " " . "WHERE ";
+                $this->query = $this->query . " " . "WHERE " . "1";
                 foreach ($args as $value) {
                     $this->query = $this->query . " " . $value;
                 }
@@ -132,27 +141,27 @@ class QueryBuilder
     }
     private function validateQuery(...$args)
     {
-        $result = true;
+        $result = false;
         foreach ($args as $value) {
             switch ($value) {
                 case 'select':
-                    if (strpos($this->query, 'SELECT') !== 0) {
-                        $result = false;
+                    if (strpos($this->query, 'SELECT') === 0) {
+                        $result = true;
                     }
                     break;
                 case 'insert':
-                    if (strpos($this->query, 'INSERT') !== 0) {
-                        $result = false;
+                    if (strpos($this->query, 'INSERT') === 0) {
+                        $result = true;
                     }
                     break;
                 case 'update':
-                    if (strpos($this->query, 'UPDATE') !== 0) {
-                        $result = false;
+                    if (strpos($this->query, 'UPDATE') === 0) {
+                        $result = true;
                     }
                     break;
                 case 'delete':
-                    if (strpos($this->query, 'DELETE') !== 0) {
-                        $result = false;
+                    if (strpos($this->query, 'DELETE') === 0) {
+                        $result = true;
                     }
                     break;
                 default:
@@ -166,5 +175,9 @@ class QueryBuilder
     public function getQuery()
     {
         return $this->query;
+    }
+    public function deleteQuery(): void
+    {
+        $this->query = "";
     }
 }
