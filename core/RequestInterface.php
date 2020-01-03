@@ -4,6 +4,8 @@ namespace core\RequestInterface;
 
 interface RequestInterface
 {
+    public function getType();
+    public function isAjax();
     public function getProperty(string $key);
     public function getProperties();
     public function getURLDomain();

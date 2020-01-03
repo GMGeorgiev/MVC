@@ -54,10 +54,8 @@ class Request implements RequestInterface
                 $this->requestProperties = $_POST;
                 break;
             case 'DELETE':
-                $this->requestProperties = $_DELETE;
                 break;
             case 'PUT':
-                $this->requestProperties = $_PUT;
                 break;
             default:
                 throw new Exception('Invalid request');
