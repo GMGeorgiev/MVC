@@ -13,16 +13,17 @@ class Request implements RequestInterface
     private $url = array();
     private $ip;
     private $headers = array();
-    private $cookie = array();
+    private $cookies = array();
 
     public function __construct()
     {
-        $this->cookie = $_COOKIE;
+        $this->cookies = $_COOKIE;
         $this->evalHeader();
         $this->ip = $_SERVER['REMOTE_ADDR'];
         $this->evalRequest();
-        $this->url = parse_url($this->getCurrentURL());
+        $this->url = parse_url($this->getRequestURL());
     }
+
 
     private function evalRequest(): void
     {
@@ -41,14 +42,18 @@ class Request implements RequestInterface
 
     public function getProperty(string $key)
     {
-        return $this->requestProperties[$key];
+        if (isset($this->requestProperties[$key])) {
+            return $this->requestProperties[$key];
+        } else {
+            throw new Exception('Key does not exist');
+        }
     }
     public function getProperties()
     {
         return $this->requestProperties;
     }
 
-    private function getCurrentURL()
+    private function getRequestURL()
     {
         $currentURL = (@$_SERVER["HTTPS"] == "on") ? "https://" : "http://";
         $currentURL .= $_SERVER["SERVER_NAME"];
@@ -94,11 +99,19 @@ class Request implements RequestInterface
 
     public function getHeaderProperty(string $key)
     {
-        return $this->headers[$key];
+        if (isset($this->headers[$key])) {
+            return $this->headers[$key];
+        } else {
+            throw new Exception('Key does not exist');
+        }
     }
 
     public function getCookieProperty(string $key)
     {
-        return $this->cookie[$key];
+        if (isset($this->cookies[$key])) {
+            return $this->cookies[$key];
+        } else {
+            throw new Exception('Key does not exist');
+        }
     }
 }
