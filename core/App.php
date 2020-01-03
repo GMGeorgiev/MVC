@@ -12,7 +12,7 @@ class App
     private function __construct()
     {
         //$this->router = $this->getRouter();
-        //$this->request = $this->getRequest();
+        $this->request = $this->getRequest();
     }
 
     public static function getInstance(){
@@ -26,7 +26,7 @@ class App
         return Registry::get('router');
     }
     public function getRequest(){
-        return Registry::get('request');
+        return Registry::get('Request');
     }
 
     public function run(){
