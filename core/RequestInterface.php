@@ -14,4 +14,6 @@ interface RequestInterface
     public function getIP();
     public function getHeaderProperty(string $key);
     public function getCookieProperty(string $key);
+    public function getFiles();
+    public function getFilesCount();
 }

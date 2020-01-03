@@ -15,15 +15,64 @@ class Request implements RequestInterface
     private $headers = array();
     private $cookies = array();
     private $type;
+    private $files;
 
     public function __construct()
     {
+        if ($_FILES) {
+            $this->files = $this->evalUploadedFiles();
+        }
+
         $this->cookies = $_COOKIE;
         $this->evalHeader();
         $this->type = $_SERVER['REQUEST_METHOD'];
         $this->ip = $_SERVER['REMOTE_ADDR'];
         $this->evalRequest();
         $this->url = parse_url($this->getRequestURL());
+    }
+
+
+    private function evalUploadedFiles()
+    {
+        $files = $_FILES;
+        $formattedFiles = [];
+        foreach ($files as $input => $infoArr) {
+            $filesByInput = [];
+            foreach ($infoArr as $key => $valueArr) {
+                if (is_array($valueArr)) {
+                    foreach ($valueArr as $i => $value) {
+                        $filesByInput[$i][$key] = $value;
+                    }
+                } else {
+                    $filesByInput[] = $infoArr;
+                    break;
+                }
+            }
+            $formattedFiles = array_merge($formattedFiles, $filesByInput);
+        }
+        $filesRemovedEmpty = [];
+        foreach ($formattedFiles as $file) {
+            if (!$file['error']) $filesRemovedEmpty[] = $file;
+        }
+        return $filesRemovedEmpty;
+    }
+
+    public function getFiles()
+    {
+        if (isset($this->files)) {
+            return $this->files;
+        } else {
+            throw new Exception('No files detected');
+        }
+    }
+
+    public function getFilesCount()
+    {
+        if (isset($this->files)) {
+            return count($this->files);
+        } else {
+            throw new Exception('No files detected');
+        }
     }
 
     public function getType()
