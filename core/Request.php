@@ -36,15 +36,15 @@ class Request implements RequestInterface
     {
         $files = $_FILES;
         $formattedFiles = [];
-        foreach ($files as $input => $infoArr) {
+        foreach ($files as $fileInfo) {
             $filesByInput = [];
-            foreach ($infoArr as $key => $valueArr) {
-                if (is_array($valueArr)) {
-                    foreach ($valueArr as $i => $value) {
-                        $filesByInput[$i][$key] = $value;
+            foreach ($fileInfo as $key => $indevidualInfo) {
+                if (is_array($indevidualInfo)) {
+                    foreach ($indevidualInfo as $key2 => $value) {
+                        $filesByInput[$key2][$key] = $value;
                     }
                 } else {
-                    $filesByInput[] = $infoArr;
+                    $filesByInput[] = $fileInfo;
                     break;
                 }
             }
