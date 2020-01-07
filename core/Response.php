@@ -84,11 +84,7 @@ class Response implements ResponseInterface
 
     private function makeJSON($content)
     {
-        if (isset($content)) {
-            return json_encode($content);
-        } else {
-            throw new Exception('Content requirement not met!');
-        }
+        return json_encode($content);
     }
 
     public function setCookie(...$args)
