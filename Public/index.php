@@ -8,12 +8,13 @@ use core\DB\Database\Database;
 use core\Request\Request;
 use core\DB\QueryBuilder\QueryBuilder;
 use core\Model\Model;
+use core\Response\Response;
 
 //Set services here
 Registry::set('Config', new Config());
 Registry::set('Database', Database::getInstance());
 Registry::set('Request', new Request());
-
+Registry::set('Response',new Response());
 
 //Boot App
 $app = App::getInstance();
