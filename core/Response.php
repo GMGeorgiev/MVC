@@ -56,7 +56,7 @@ class Response implements ResponseInterface
                 $this->content = $content;
             }
         } else {
-            throw new Exception('Content not requirement not met!');
+            throw new Exception('Content requirement not met!');
         }
         return $this;
     }
@@ -78,7 +78,7 @@ class Response implements ResponseInterface
             json_decode($content);
             return (json_last_error() == JSON_ERROR_NONE);
         } else {
-            throw new Exception('Content not requirement not met!');
+            throw new Exception('Content requirement not met!');
         }
     }
 
@@ -87,7 +87,7 @@ class Response implements ResponseInterface
         if (isset($content)) {
             return json_encode($content);
         } else {
-            throw new Exception('Content not requirement not met!');
+            throw new Exception('Content requirement not met!');
         }
     }
 
