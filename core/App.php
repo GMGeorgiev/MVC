@@ -11,7 +11,7 @@ class App
 
     private function __construct()
     {
-        //$this->router = $this->getRouter();
+        $this->router = $this->getRouter();
         $this->request = $this->getRequest();
     }
 
@@ -23,14 +23,14 @@ class App
     }
 
     public function getRouter(){
-        return Registry::get('router');
+        return Registry::get('Router');
     }
     public function getRequest(){
         return Registry::get('Request');
     }
 
     public function run(){
-        //$this->router->setRequest($this->reguest);
-        //$this->router->callAction();
+        $this->router->parseUrl($this->request->getFullURL());
+        $this->router->callAction();
     }
 }

@@ -30,4 +30,7 @@ class Config implements ConfigInterface
     {
         return $this->configuration[$config][$key];
     }
+    public function getProperties($config){
+        return $this->configuration[$config];
+    }
 }

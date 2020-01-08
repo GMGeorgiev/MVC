@@ -147,7 +147,6 @@ class Request implements RequestInterface
     {
         return $this->url['path'];
     }
-
     public function getURLQuery()
     {
         if (isset($this->url['query'])) {
@@ -155,6 +154,11 @@ class Request implements RequestInterface
         } else {
             throw new Exception('No URL query set!');
         }
+    }
+    public function getFullURL()
+    {
+        $url = $_GET['url'];
+        return $url;
     }
 
     public function getIP()

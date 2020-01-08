@@ -97,3 +97,4 @@ class Response implements ResponseInterface
         return $this;
     }
 }
+
