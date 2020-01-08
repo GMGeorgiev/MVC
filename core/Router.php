@@ -10,7 +10,7 @@ include_once('RouterInterface.php');
 
 class Router implements RouterInterface
 {
-    const PATH = '..' . __DIR__ . '/app/controllers/';
+    const PATH = __DIR__.'/../app/controllers/';
     const EXT = '.php';
     public $controller;
     public $action;
