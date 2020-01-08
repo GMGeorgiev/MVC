@@ -16,4 +16,5 @@ interface RequestInterface
     public function getCookieProperty(string $key);
     public function getFiles();
     public function getFilesCount();
+    public function getFullURL();
 }

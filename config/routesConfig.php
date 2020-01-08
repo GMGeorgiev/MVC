@@ -1,5 +1,7 @@
 <?php
 
 return [
-    'routes' => []
+    'routes' => [
+        'home'
+    ]
 ];
