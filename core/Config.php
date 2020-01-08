@@ -26,10 +26,12 @@ class Config implements ConfigInterface
             echo 'Folder not found ', $e->getMessage(), "\n";
         }
     }
+
     public function getProperty($config, $key)
     {
         return $this->configuration[$config][$key];
     }
+    
     public function getProperties($config){
         return $this->configuration[$config];
     }

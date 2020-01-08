@@ -19,6 +19,7 @@ Registry::set('Response',new Response());
 Registry::set('Router', new Router());
 
 //Boot App
+
 $app = App::getInstance();
 $app->run();
 
