@@ -1,6 +1,7 @@
 <?php
 include_once('../core/autoloader.php');
-include_once('../core/TemplateEngine/libs/Smarty.class.php');
+include_once('../vendor/autoload.php');
+include_once('../vendor/smarty/smarty/libs/Smarty.class.php');
 
 use core\Config\Config;
 use core\Registry\Registry;
