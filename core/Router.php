@@ -9,7 +9,8 @@ use Exception;
 include_once('RouterInterface.php');
 
 class Router implements RouterInterface
-{   const PATH = '../app/controllers/';
+{
+    const PATH = '../app/controllers/';
     const EXT = '.php';
     public $controller;
     public $action;
@@ -25,7 +26,6 @@ class Router implements RouterInterface
     public function parseUrl($url)
     {
         $this->url = explode('/', filter_var(rtrim($url, '/'), FILTER_SANITIZE_URL));
-        var_dump($url);
         $this->setController($this->url);
         $this->setAction($this->url);
         $this->setParams($this->url);
@@ -33,7 +33,7 @@ class Router implements RouterInterface
 
     private function setController($parsedParams): void
     {
-        if (in_array($parsedParams[0], $this->routes)) {
+        if (in_array($parsedParams[0], $this->routes) && isset($parsedParams[0])) {
             $this->controller = $parsedParams[0];
             unset($this->url[0]);
             require_once(Router::PATH . $this->controller . Router::EXT);
@@ -45,7 +45,7 @@ class Router implements RouterInterface
 
     private function setAction($parsedParams): void
     {
-        if (isset($this->controller)) {
+        if (isset($this->controller) && isset($parsedParams[1])) {
             if (method_exists($this->controller, $parsedParams[1])) {
                 $this->action = $parsedParams[1];
                 unset($this->url[1]);
