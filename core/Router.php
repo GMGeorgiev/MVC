@@ -10,7 +10,7 @@ include_once('RouterInterface.php');
 
 class Router implements RouterInterface
 {
-    const PATH = '../app/controllers/';
+    const PATH = '..' . __DIR__ . '/app/controllers/';
     const EXT = '.php';
     public $controller;
     public $action;
@@ -36,7 +36,7 @@ class Router implements RouterInterface
         if (in_array($parsedParams[0], $this->routes) && isset($parsedParams[0])) {
             $this->controller = $parsedParams[0];
             unset($this->url[0]);
-            require_once(Router::PATH . $this->controller . Router::EXT);
+            require_once(self::PATH . $this->controller . self::EXT);
             $this->controller = new $this->controller;
         } else {
             throw new Exception("Controller doesn't exist!");
