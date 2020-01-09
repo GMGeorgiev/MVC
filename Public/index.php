@@ -2,6 +2,7 @@
 include_once('../core/autoloader.php');
 include_once('../vendor/autoload.php');
 include_once('../vendor/smarty/smarty/libs/Smarty.class.php');
+include_once('../config/globalconfig.php');
 
 use core\Config\Config;
 use core\Registry\Registry;
