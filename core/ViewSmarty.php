@@ -15,7 +15,7 @@ class ViewSmarty implements ViewInterface
         if (class_exists('Smarty')) {
             $this->templateEngine = new Smarty();
         } else {
-            exit();
+            exit("Classname not found!");
         }
     }
     public function assign(array $values): void
