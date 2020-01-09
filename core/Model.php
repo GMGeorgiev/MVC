@@ -25,6 +25,7 @@ class Model
             $this->{$key} = $value;
         }
     }
+
     public function find($key, $column = null)
     {
         $sql = $this->query
@@ -40,6 +41,7 @@ class Model
         $this->query->deleteQuery();
         return $result;
     }
+
     public function save()
     {
         if (count($this->find($this->{$this->prKey}))) {
@@ -48,6 +50,7 @@ class Model
             $this->insert();
         }
     }
+
     public function delete(): void
     {
         $sql = $this->query
@@ -58,6 +61,7 @@ class Model
         $this->db->query($sql);
         $this->query->deleteQuery();
     }
+
     public function insert(): void
     {
         $sql = $this->query
@@ -70,6 +74,7 @@ class Model
         $this->db->query($sql, array_values($this->makeExpression()));
         $this->query->deleteQuery();
     }
+
     public function update(): void
     {
         $sql = $this->query
@@ -83,6 +88,7 @@ class Model
         $this->db->query($sql);
         $this->query->deleteQuery();
     }
+
     private function isAllowedKey($key)
     {
         $notAllowed = ['prKey', 'db', 'table'];
@@ -92,6 +98,7 @@ class Model
         }
         return $result;
     }
+    
     private function makeExpression()
     {
         $properties = get_object_vars($this);
