@@ -17,6 +17,7 @@ class Registry
         }
         return $default;
     }
+
     public static function set($key, $instance = null)
     {
         if (!in_array($key, array_keys(self::getAllowedKeys()))) {
@@ -32,11 +33,13 @@ class Registry
         //set instante in _instances array if properly validated
         self::$_instances[$key] = $instance;
     }
+
     public static function getAllowedKeys()
     {
         $allowedKeys = include('../config/registryConfig.php');
         return $allowedKeys['registry'];
     }
+
     public static function erase($key)
     {
         unset(self::$_instances[$key]);
