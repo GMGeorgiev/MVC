@@ -16,6 +16,7 @@ class Response implements ResponseInterface
     {
         $this->evalHeader();
     }
+
     private function evalHeader()
     {
         foreach (getallheaders() as $name => $value) {
@@ -97,4 +98,3 @@ class Response implements ResponseInterface
         return $this;
     }
 }
-
