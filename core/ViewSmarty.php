@@ -5,7 +5,6 @@ namespace core\ViewSmarty;
 include_once('ViewInterface.php');
 
 use core\ViewInterface\ViewInterface;
-use Exception;
 use Smarty;
 
 class ViewSmarty implements ViewInterface
@@ -13,10 +12,10 @@ class ViewSmarty implements ViewInterface
     private $templateEngine;
     public function __construct()
     {
-        try {
+        if (class_exists('Smarty')) {
             $this->templateEngine = new Smarty();
-        } catch (Exception $e) {
-            echo $e->getMessage(), $e;
+        } else {
+            exit();
         }
     }
     public function assign(array $values): void
