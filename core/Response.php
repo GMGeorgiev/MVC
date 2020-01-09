@@ -4,6 +4,7 @@ namespace core\Response;
 
 use core\ResponseInterface\ResponseInterface;
 use Exception;
+use core\Registry\Registry;
 
 include_once('ResponseInterface.php');
 
@@ -11,10 +12,12 @@ class Response implements ResponseInterface
 {
     public $headers = array();
     private $content;
+    private $view;
 
     public function __construct()
     {
         $this->evalHeader();
+        $this->view = Registry::get('View');
     }
 
     private function evalHeader()
