@@ -20,19 +20,18 @@ class ViewSmarty implements ViewInterface
         }
         $this->init();
     }
-    public function assign(array $values): void
-    {
-        foreach ($values as $key => $value) {
-            $this->templateEngine->assign($key, $value);
-        }
-    }
     private function init(): void
     {
         $this->templateEngine->setTemplateDir(Registry::get('Config')->getProperty('templateEngine', 'template_path'));
         $this->templateEngine->setCompileDir(Registry::get('Config')->getProperty('templateEngine', 'cache'));
     }
-    public function render(string $tplName): void
+    public function render(string $tplName, array $values): void
     {
         $this->templateEngine->display($tplName);
+        if (isset($values)) {
+            foreach ($values as $key => $value) {
+                $this->templateEngine->assign($key, $value);
+            }
+        }
     }
 }
