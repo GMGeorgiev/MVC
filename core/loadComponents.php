@@ -22,10 +22,7 @@ Registry::set('Database', Database::getInstance());
 Registry::set('Request', new Request());
 Registry::set('Response', new Response());
 Registry::set('Router', new Router());
-Registry::set('View', new ViewSmarty(
-    Registry::get('Config')->getProperty('templateEngine', 'template_path'),
-    Registry::get('Config')->getProperty('templateEngine', 'cache')
-));
+Registry::set('View', new ViewSmarty());
 
 
 //get App instance
