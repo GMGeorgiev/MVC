@@ -1,10 +1,13 @@
 <?php
 
 namespace core\App;
+
 use core\Registry\Registry;
+use core\ViewSmarty\ViewSmarty;
 
 class App
-{   private $router;
+{
+    private $router;
     private $request;
     private static $instance = null;
 
@@ -15,22 +18,30 @@ class App
         $this->request = $this->getRequest();
     }
 
-    public static function getInstance(){
+    public static function getInstance()
+    {
         if (!self::$instance) {
             self::$instance = new App();
         }
         return self::$instance;
     }
 
-    public function getRouter(){
+    public function getRouter()
+    {
         return Registry::get('Router');
     }
-    public function getRequest(){
+    public function getRequest()
+    {
         return Registry::get('Request');
     }
 
-    public function run(){
+
+    public function run()
+    {
         $this->router->parseUrl($this->request->getFullURL());
-        $this->router->callAction();
+        $content = $this->router->callAction();
+        Registry::get('Response')
+            ->setContent(...$content)
+            ->getContent();
     }
 }

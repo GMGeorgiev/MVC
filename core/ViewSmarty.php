@@ -11,6 +11,7 @@ use core\Registry\Registry;
 class ViewSmarty implements ViewInterface
 {
     private $templateEngine;
+
     public function __construct()
     {
         if (class_exists('Smarty')) {
@@ -20,18 +21,20 @@ class ViewSmarty implements ViewInterface
         }
         $this->init();
     }
+
     private function init(): void
     {
         $this->templateEngine->setTemplateDir(Registry::get('Config')->getProperty('templateEngine', 'template_path'));
         $this->templateEngine->setCompileDir(Registry::get('Config')->getProperty('templateEngine', 'cache'));
     }
-    public function render(string $tplName, array $values): void
+
+    public function render($templateName, $templateValues)
     {
-        $this->templateEngine->display($tplName);
-        if (isset($values)) {
-            foreach ($values as $key => $value) {
+        if (!empty($templateValues)) {
+            foreach ($templateValues as $key => $value) {
                 $this->templateEngine->assign($key, $value);
             }
         }
+        $this->templateEngine->display($templateName);
     }
 }

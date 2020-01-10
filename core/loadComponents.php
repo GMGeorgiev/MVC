@@ -20,9 +20,9 @@ use core\ViewSmarty\ViewSmarty;
 Registry::set('Config', new Config());
 Registry::set('Database', Database::getInstance());
 Registry::set('Request', new Request());
+Registry::set('View', new ViewSmarty());
 Registry::set('Response', new Response());
 Registry::set('Router', new Router());
-Registry::set('View', new ViewSmarty());
 
 
 //get App instance
