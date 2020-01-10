@@ -8,6 +8,8 @@ return [
         'Response' => 'core\ResponseInterface\ResponseInterface',
         'Router' => 'core\RouterInterface\RouterInterface',
         'View' => 'core\ViewInterface\ViewInterface',
+        'QueryBuilder' => 'core\DB\QueryBuilderInterface\QueryBuilderInterface',
+        'Authentication' => 'core\AuthenticationInterface\AuthenticationInterface',
         //Add services here
     ]
 ];
