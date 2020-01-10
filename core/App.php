@@ -34,14 +34,33 @@ class App
     {
         return Registry::get('Request');
     }
+    
+    private function isUnpackable($content)
+    {
+        $unpackable = false;
+        if (is_array($content)) {
+            if (is_string($content[0]) and is_array($content[1])) {
+                $unpackable = true;
+            }
+        }
+        return $unpackable;
+    }
 
+    private function getResponseContent($content)
+    {
+        $response = Registry::get('Response');
+        if ($this->isUnpackable($content)) {
+            $response->setContent(...$content);
+        } else {
+            $response->setContent($content);
+        }
+        return $response->getContent();
+    }
 
     public function run()
     {
         $this->router->parseUrl($this->request->getFullURL());
         $content = $this->router->callAction();
-        Registry::get('Response')
-            ->setContent(...$content)
-            ->getContent();
+        return $this->getResponseContent($content);
     }
 }
