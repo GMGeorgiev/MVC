@@ -4,6 +4,7 @@ namespace core\Response;
 
 use core\ResponseInterface\ResponseInterface;
 use Exception;
+use core\Registry\Registry;
 
 include_once('ResponseInterface.php');
 
@@ -11,10 +12,12 @@ class Response implements ResponseInterface
 {
     public $headers = array();
     private $content;
+    private $view;
 
     public function __construct()
     {
         $this->evalHeader();
+        $this->view = Registry::get('View');
     }
 
     private function evalHeader()
@@ -46,15 +49,17 @@ class Response implements ResponseInterface
         }
     }
 
-    public function setContent($content)
-    {
+    public function setContent($content, $values = array())
+    {   
         if (isset($content)) {
             if (strtolower($this->getHeaderType()) == 'json') {
                 if (!$this->isJSON($content)) {
                     $this->content = $this->makeJSON($content);
                 }
+            } else if (isset($values) && isset($content)) {
+                $this->content = $this->view->render($content, $values);
             } else {
-                $this->content = $content;
+                $this->content = $this->view->render($content);
             }
         } else {
             throw new Exception('Content requirement not met!');
