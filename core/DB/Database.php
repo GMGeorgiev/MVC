@@ -1,9 +1,9 @@
 <?php
 
-namespace core\DB\Database;
+namespace core\DB;
 
-use core\Registry\Registry;
-use core\DB\DatabaseInterface\DatabaseInterface;
+use core\Registry;
+use core\DB\DatabaseInterface;
 use Exception;
 use PDO;
 use PDOException;

@@ -6,14 +6,14 @@ include_once('../vendor/autoload.php');
 
 //Namespaces
 use core\Config\Config;
-use core\Registry\Registry;
-use core\App\App;
-use core\DB\Database\Database;
+use core\Registry;
+use core\App;
+use core\DB\Database;
 use core\Request\Request;
-use core\DB\QueryBuilder\QueryBuilder;
+use core\DB\QueryBuilder;
 use core\Response\Response;
 use core\Router\Router;
-use core\ViewSmarty\ViewSmarty;
+use core\View\ViewSmarty;
 use core\Authentication\Authentication;
 use core\Utility\Utility;
 

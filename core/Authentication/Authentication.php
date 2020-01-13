@@ -3,8 +3,8 @@
 namespace core\Authentication;
 
 
-use core\Registry\Registry;
-use core\AuthenticationInterface\AuthenticationInterface;
+use core\Registry;
+use core\Authentication\AuthenticationInterface;
 
 class Authentication implements AuthenticationInterface
 {

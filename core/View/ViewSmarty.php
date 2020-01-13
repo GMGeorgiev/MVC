@@ -1,10 +1,10 @@
 <?php
 
-namespace core\ViewSmarty;
+namespace core\View;
 
-use core\ViewInterface\ViewInterface;
+use core\View\ViewInterface;
 use Smarty;
-use core\Registry\Registry;
+use core\Registry;
 
 class ViewSmarty implements ViewInterface
 {

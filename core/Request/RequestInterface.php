@@ -1,6 +1,6 @@
 <?php
 
-namespace core\RequestInterface;
+namespace core\Request;
 
 interface RequestInterface
 {

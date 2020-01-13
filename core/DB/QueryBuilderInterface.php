@@ -1,6 +1,6 @@
 <?php
 
-namespace core\DB\QueryBuilderInterface;
+namespace core\DB;
 
 interface QueryBuilderInterface{
     public function select(string $tableName, $params);

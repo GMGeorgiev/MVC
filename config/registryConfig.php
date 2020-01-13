@@ -2,18 +2,15 @@
 
 return [
     'registry' => [
-        'Config' => 'core\ConfigInterface\ConfigInterface',
-        'Database' => 'core\DB\DatabaseInterface\DatabaseInterface',
-        'Request' => 'core\RequestInterface\RequestInterface',
-        'Response' => 'core\ResponseInterface\ResponseInterface',
-        'Router' => 'core\RouterInterface\RouterInterface',
-        'View' => 'core\ViewInterface\ViewInterface',
-        'QueryBuilder' => 'core\DB\QueryBuilderInterface\QueryBuilderInterface',
-        'Authentication' => 'core\AuthenticationInterface\AuthenticationInterface',
+        'Config' => 'core\Config\ConfigInterface',
+        'Database' => 'core\DB\DatabaseInterface',
+        'Request' => 'core\Request\RequestInterface',
+        'Response' => 'core\Response\ResponseInterface',
+        'Router' => 'core\Router\RouterInterface',
+        'View' => 'core\View\ViewInterface',
+        'QueryBuilder' => 'core\DB\QueryBuilderInterface',
+        'Authentication' => 'core\Authentication\AuthenticationInterface',
         //Add services here
     ]
 ];
 
-
-$💩 = 'asd';
-var_dump($💩);

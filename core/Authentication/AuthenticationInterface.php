@@ -1,6 +1,6 @@
 <?php
 
-namespace core\AuthenticationInterface;
+namespace core\Authentication;
 
 interface AuthenticationInterface
 {

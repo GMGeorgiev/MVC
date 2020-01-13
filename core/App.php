@@ -1,8 +1,8 @@
 <?php
 
-namespace core\App;
+namespace core;
 
-use core\Registry\Registry;
+use core\Registry;
 
 class App
 {

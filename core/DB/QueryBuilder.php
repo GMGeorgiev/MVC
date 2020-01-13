@@ -1,9 +1,9 @@
 <?php
 
-namespace core\DB\QueryBuilder;
+namespace core\DB;
 
 use Exception;
-use core\DB\QueryBuilderInterface\QueryBuilderInterface;
+use core\DB\QueryBuilderInterface;
 
 class QueryBuilder implements QueryBuilderInterface
 {

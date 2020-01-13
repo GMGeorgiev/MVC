@@ -2,7 +2,7 @@
 
 namespace core\Request;
 
-use core\RequestInterface\RequestInterface;
+use core\Request\RequestInterface;
 use Exception;
 
 class Request implements RequestInterface
