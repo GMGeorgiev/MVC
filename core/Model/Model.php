@@ -2,8 +2,8 @@
 
 namespace core\Model;
 
-use core\DB\QueryBuilder\QueryBuilder;
-use core\Registry\Registry;
+use core\DB\QueryBuilder;
+use core\Registry;
 
 class Model
 {

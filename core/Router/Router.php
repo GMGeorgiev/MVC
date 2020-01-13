@@ -2,8 +2,8 @@
 
 namespace core\Router;
 
-use core\Registry\Registry;
-use core\RouterInterface\RouterInterface;
+use core\Registry;
+use core\Router\RouterInterface;
 use Exception;
 
 class Router implements RouterInterface

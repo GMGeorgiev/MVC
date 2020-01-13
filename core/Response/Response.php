@@ -2,9 +2,9 @@
 
 namespace core\Response;
 
-use core\ResponseInterface\ResponseInterface;
+use core\Response\ResponseInterface;
 use Exception;
-use core\Registry\Registry;
+use core\Registry;
 
 class Response implements ResponseInterface
 {
