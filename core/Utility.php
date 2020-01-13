@@ -2,12 +2,11 @@
 
 namespace core\Utility;
 
-use core\UtilityInterface\UtilityInterface;
-
-class Utility implements UtilityInterface
+class Utility
 {
-    public function hashPassword($password)
-    {
-        return password_hash($password, PASSWORD_BCRYPT, 12);
+    public static function hashPassword($password)
+    {   $encrypt_alg = 'PASSWORD_BCRYPT';
+        $encrypt_str = 12;
+        return password_hash($password, $encrypt_alg, $encrypt_str);
     }
 }

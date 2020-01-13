@@ -48,13 +48,13 @@ class Authentication implements AuthenticationInterface
     public function authenticate()
     {
         $request = Registry::get('Request');
-        $passwordHash = Registry::get('Utility');
+        $utility = Registry::get('Utility');
         $sql = Registry::get('QueryBuilder')
             ->select($this->table, ['id', 'username', 'password'])
             ->where(
                 Registry::get('QueryBuilder')->whereAnd("{$this->usersCol} = {$request->getProperty('username')}"),
                 Registry::get('QueryBuilder')->whereAnd("{$this->passwordCol}
-                            = {$passwordHash->hashPassword($request->getProperty('password'))}")
+                            = {$utility::hashPassword($request->getProperty('password'))}")
             );
         $query = $sql->getQuery();
         $queryResult = Registry::get('Database')->query($query);
