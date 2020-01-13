@@ -5,7 +5,7 @@ namespace core\Request;
 use core\RequestInterface\RequestInterface;
 use Exception;
 
-include_once('RequestInterface.php');
+include_once(__DIR__.'/Interfaces/RequestInterface.php');
 
 class Request implements RequestInterface
 {

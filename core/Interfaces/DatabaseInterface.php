@@ -2,9 +2,9 @@
 
 namespace core\DB\DatabaseInterface;
 
-interface DatabaseInterface{
+interface DatabaseInterface
+{
     public function getConnection();
     public static function getInstance();
-    public function query($sql,$params=[]);
+    public function query($sql, $params = []);
 }
-

@@ -6,7 +6,7 @@ use core\ResponseInterface\ResponseInterface;
 use Exception;
 use core\Registry\Registry;
 
-include_once('ResponseInterface.php');
+include_once(__DIR__.'/Interfaces/ResponseInterface.php');
 
 class Response implements ResponseInterface
 {

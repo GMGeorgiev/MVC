@@ -3,7 +3,7 @@
 namespace core\Utility;
 use core\UtilityInterface\UtilityInterface;
 
-include_once('UtilityInterface.php');
+include_once(__DIR__.'/Interfaces/UtilityInterface.php');
 class Utility implements UtilityInterface
 {
     public function hashPassword($password)

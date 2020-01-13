@@ -2,7 +2,7 @@
 
 namespace core\ViewSmarty;
 
-include_once('ViewInterface.php');
+include_once(__DIR__ . '/Interfaces/ViewInterface.php');
 
 use core\ViewInterface\ViewInterface;
 use Smarty;

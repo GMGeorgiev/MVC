@@ -6,7 +6,7 @@ use core\Registry\Registry;
 use core\RouterInterface\RouterInterface;
 use Exception;
 
-include_once('RouterInterface.php');
+include_once(__DIR__.'/Interfaces/RouterInterface.php');
 
 class Router implements RouterInterface
 {
