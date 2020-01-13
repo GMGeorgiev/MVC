@@ -18,8 +18,11 @@ class Config implements ConfigInterface
     private function init()
     {
         try {
-            foreach (glob("../config/*.php") as $config) {
+            foreach (glob(__DIR__ . "/../config/*.php") as $config) {   
                 $tempArray = include_once($config);
+                if(is_bool($tempArray)){
+                    continue;
+                }
                 $this->configuration[key($tempArray)] = $tempArray[key($tempArray)];
             }
         } catch (Exception $e) {

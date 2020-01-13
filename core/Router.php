@@ -32,7 +32,7 @@ class Router implements RouterInterface
     }
 
     private function setController($parsedParams): void
-    {
+    {   
         if (in_array($parsedParams[0], $this->routes) && isset($parsedParams[0])) {
             $this->controller = $parsedParams[0];
             unset($this->url[0]);

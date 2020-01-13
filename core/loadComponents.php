@@ -27,6 +27,7 @@ Registry::set('View', new ViewSmarty());
 Registry::set('Response', new Response());
 Registry::set('Router', new Router());
 Registry::set('Authentication', new Authentication);
+Registry::get('Utility', new Utility());
 
 
 //get App instance
