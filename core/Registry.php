@@ -36,7 +36,7 @@ class Registry
 
     public static function getAllowedKeys()
     {
-        $allowedKeys = include('../config_files/registryConfig.php');
+        $allowedKeys = include('../config/registryConfig.php');
         return $allowedKeys['registry'];
     }
 
