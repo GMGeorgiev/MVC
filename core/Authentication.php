@@ -6,7 +6,6 @@ namespace core\Authentication;
 use core\Registry\Registry;
 use core\AuthenticationInterface\AuthenticationInterface;
 
-include_once(__DIR__.'/Interfaces/AuthenticationInteface.php');
 class Authentication implements AuthenticationInterface
 {
     private $table;

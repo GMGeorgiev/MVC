@@ -5,7 +5,6 @@ namespace core\DB\QueryBuilder;
 use Exception;
 use core\DB\QueryBuilderInterface\QueryBuilderInterface;
 
-include_once(__DIR__.'/../Interfaces/QueryBuilderInterface.php');
 class QueryBuilder implements QueryBuilderInterface
 {
     private $query = '';

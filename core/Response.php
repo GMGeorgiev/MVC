@@ -6,8 +6,6 @@ use core\ResponseInterface\ResponseInterface;
 use Exception;
 use core\Registry\Registry;
 
-include_once(__DIR__.'/Interfaces/ResponseInterface.php');
-
 class Response implements ResponseInterface
 {
     public $headers = array();
@@ -50,7 +48,7 @@ class Response implements ResponseInterface
     }
 
     public function setContent($content, $values = array())
-    {   
+    {
         if (isset($content)) {
             if (strtolower($this->getHeaderType()) == 'json') {
                 if (!$this->isJSON($content)) {

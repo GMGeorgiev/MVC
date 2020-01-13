@@ -4,5 +4,5 @@ namespace core\ViewInterface;
 
 interface ViewInterface
 {
-    public function render($templateName,$templateValues);
+    public function render($templateName, $templateValues);
 }

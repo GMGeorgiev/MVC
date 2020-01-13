@@ -3,7 +3,6 @@
 namespace core\App;
 
 use core\Registry\Registry;
-use core\ViewSmarty\ViewSmarty;
 
 class App
 {
@@ -34,7 +33,7 @@ class App
     {
         return Registry::get('Request');
     }
-    
+
     private function isUnpackable($content)
     {
         $unpackable = false;

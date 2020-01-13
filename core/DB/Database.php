@@ -2,7 +2,6 @@
 
 namespace core\DB\Database;
 
-use core\DB\QueryBuilder\QueryBuilder;
 use core\Registry\Registry;
 use core\DB\DatabaseInterface\DatabaseInterface;
 use Exception;
@@ -10,7 +9,6 @@ use PDO;
 use PDOException;
 
 
-include_once(__DIR__.'/../Interfaces/DatabaseInterface.php');
 class Database implements DatabaseInterface
 {
     private static $instance = null;

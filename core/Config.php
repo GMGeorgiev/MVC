@@ -5,7 +5,6 @@ namespace core\Config;
 use Exception;
 use core\ConfigInterface\ConfigInterface;
 
-include_once(__DIR__.'/Interfaces/ConfigInterface.php');
 class Config implements ConfigInterface
 {
     private $configuration = array();
@@ -18,9 +17,9 @@ class Config implements ConfigInterface
     private function init()
     {
         try {
-            foreach (glob(__DIR__ . "/../config/*.php") as $config) {   
+            foreach (glob(__DIR__ . "/../config/*.php") as $config) {
                 $tempArray = include_once($config);
-                if(is_bool($tempArray)){
+                if (is_bool($tempArray)) {
                     continue;
                 }
                 $this->configuration[key($tempArray)] = $tempArray[key($tempArray)];
@@ -34,8 +33,9 @@ class Config implements ConfigInterface
     {
         return $this->configuration[$config][$key];
     }
-    
-    public function getProperties($config){
+
+    public function getProperties($config)
+    {
         return $this->configuration[$config];
     }
 }

@@ -12,3 +12,12 @@ function autoloader($className)
 }
 
 spl_autoload_register('autoloader');
+
+autloadInterfaces();
+
+function autloadInterfaces()
+{
+    foreach (glob(__DIR__ . "/Interfaces/*.php") as $config) {
+        include_once($config);
+    }
+}

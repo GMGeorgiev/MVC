@@ -98,7 +98,7 @@ class Model
         }
         return $result;
     }
-    
+
     private function makeExpression()
     {
         $properties = get_object_vars($this);

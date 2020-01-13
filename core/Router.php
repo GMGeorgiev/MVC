@@ -6,11 +6,9 @@ use core\Registry\Registry;
 use core\RouterInterface\RouterInterface;
 use Exception;
 
-include_once(__DIR__.'/Interfaces/RouterInterface.php');
-
 class Router implements RouterInterface
 {
-    const PATH = __DIR__.'/../app/controllers/';
+    const PATH = __DIR__ . '/../app/controllers/';
     const EXT = '.php';
     public $controller;
     public $action;
@@ -32,7 +30,7 @@ class Router implements RouterInterface
     }
 
     private function setController($parsedParams): void
-    {   
+    {
         if (in_array($parsedParams[0], $this->routes) && isset($parsedParams[0])) {
             $this->controller = $parsedParams[0];
             unset($this->url[0]);
@@ -63,7 +61,7 @@ class Router implements RouterInterface
     }
 
     public function callAction()
-    {   
+    {
         return call_user_func_array([$this->controller, $this->action], $this->params);
     }
 }
