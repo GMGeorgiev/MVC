@@ -3,8 +3,9 @@
 namespace core\DB\QueryBuilder;
 
 use Exception;
+use core\DB\QueryBuilderInterface\QueryBuilderInterface;
 
-class QueryBuilder
+class QueryBuilder implements QueryBuilderInterface
 {
     private $query = '';
     public function __construct()

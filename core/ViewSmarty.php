@@ -2,8 +2,6 @@
 
 namespace core\ViewSmarty;
 
-include_once('ViewInterface.php');
-
 use core\ViewInterface\ViewInterface;
 use Smarty;
 use core\Registry\Registry;

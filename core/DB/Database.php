@@ -2,7 +2,6 @@
 
 namespace core\DB\Database;
 
-use core\DB\QueryBuilder\QueryBuilder;
 use core\Registry\Registry;
 use core\DB\DatabaseInterface\DatabaseInterface;
 use Exception;
@@ -10,7 +9,6 @@ use PDO;
 use PDOException;
 
 
-include_once('DatabaseInterface.php');
 class Database implements DatabaseInterface
 {
     private static $instance = null;
@@ -48,7 +46,6 @@ class Database implements DatabaseInterface
         try {
             $this->con = new PDO("mysql:host={$this->getDBHost()};dbname={$this->getDBName()}", $this->getDBUser(), $this->getDBPsswd());
             $this->con->setAttribute(PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            echo "Connected successfully" . '<br/>';
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }

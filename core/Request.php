@@ -5,8 +5,6 @@ namespace core\Request;
 use core\RequestInterface\RequestInterface;
 use Exception;
 
-include_once('RequestInterface.php');
-
 class Request implements RequestInterface
 {
     private $requestProperties = array();
