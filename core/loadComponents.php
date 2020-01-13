@@ -29,6 +29,5 @@ Registry::set('Router', new Router());
 Registry::set('Authentication', new Authentication);
 Registry::get('Utility', new Utility());
 
-
 //get App instance
 $app = App::getInstance();
