@@ -60,6 +60,8 @@ class App
     {
         $this->router->parseUrl($this->request->getFullURL());
         $content = $this->router->callAction();
-        return $this->getResponseContent($content);
+        if ($content) {
+            return $this->getResponseContent($content);
+        }
     }
 }

@@ -157,8 +157,10 @@ class Request implements RequestInterface
 
     public function getFullURL()
     {
-        $url = $_GET['url'];
-        return $url;
+        if (isset($_GET['url'])) {
+            $url = $_GET['url'];
+            return $url;
+        }
     }
 
     public function getIP()
