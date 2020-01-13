@@ -1,2 +1,8 @@
 /vendor/
 /cache/
+.idea/vcs.xml
+.idea/php.xml
+.idea/modules.xml
+.idea/MVC.iml
+.idea/workspace.xml
+.idea/misc.xml
