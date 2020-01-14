@@ -5,17 +5,17 @@ include_once('../core/autoloader.php');
 include_once('../vendor/autoload.php');
 
 //Namespaces
-use core\Config\Config;
-use core\Registry;
-use core\App;
-use core\DB\Database;
-use core\Request\Request;
-use core\DB\QueryBuilder;
-use core\Response\Response;
-use core\Router\Router;
-use core\View\ViewSmarty;
-use core\Authentication\Authentication;
-use core\Utility\Utility;
+use core\Config\Config,
+    core\Registry,
+    core\App,
+    core\DB\Database,
+    core\Request\Request,
+    core\DB\QueryBuilder,
+    core\Response\Response,
+    core\Router\Router,
+    core\View\ViewSmarty,
+    core\Authentication\Authentication,
+    core\Utility\Utility;
 
 //Set services here
 Registry::set('QueryBuilder', new QueryBuilder());

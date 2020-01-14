@@ -3,6 +3,7 @@
 namespace core\Request;
 
 use core\Request\RequestInterface;
+use core\Registry;
 use Exception;
 
 class Request implements RequestInterface
@@ -157,8 +158,12 @@ class Request implements RequestInterface
 
     public function getFullURL()
     {
-        $url = $_GET['url'];
-        return $url;
+        if (isset($_GET['url'])) {
+            $url = $_GET['url'];
+            return $url;
+        } else {
+            throw new Exception("URL not properly set");
+        }
     }
 
     public function getIP()

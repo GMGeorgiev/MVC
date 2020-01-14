@@ -8,7 +8,7 @@ use Exception;
 
 class Router implements RouterInterface
 {
-    const PATH = __DIR__ . '/../app/controllers/';
+    const PATH = __DIR__ . '/../../app/controllers/';
     const EXT = '.php';
     public $controller;
     public $action;
@@ -31,13 +31,19 @@ class Router implements RouterInterface
 
     private function setController($parsedParams): void
     {
+        strlen($parsedParams[0]);
         if (in_array($parsedParams[0], $this->routes) && isset($parsedParams[0])) {
             $this->controller = $parsedParams[0];
             unset($this->url[0]);
-            require_once(self::PATH . $this->controller . self::EXT);
+            $filepath = self::PATH . $this->controller . self::EXT;
+            if(file_exists($filepath)){
+                require_once($filepath);
+            } else {
+                throw new Exception('File does not exist!');
+            }
             $this->controller = new $this->controller;
         } else {
-            throw new Exception("Controller doesn't exist!");
+            throw new Exception('Controller does not exist');
         }
     }
 
@@ -62,6 +68,10 @@ class Router implements RouterInterface
 
     public function callAction()
     {
-        return call_user_func_array([$this->controller, $this->action], $this->params);
+        if (isset($this->controller) && isset($this->action)) {
+            return call_user_func_array([$this->controller, $this->action], $this->params);
+        } else {
+            throw new Exception('Controller and/or action not set!');
+        }
     }
 }
