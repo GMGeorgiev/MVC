@@ -59,12 +59,14 @@ class App
 
     public function run()
     {
-        $this->router->parseUrl($this->request->getFullURL());
-        $content = $this->router->callAction();
-        if ($content) {
+        try {
+            $this->router->parseUrl($this->request->getFullURL());
+            $content = $this->router->callAction();
             return $this->getResponseContent($content);
-        } else {
-            throw new Exception('Controller content not returned');
+        } catch (Exception $e) {
+            Registry::get('Response')->setHeaderErrorCode(404, "Error Page not found");
+            return $this->getResponseContent('404error.tpl');
+            die();
         }
     }
 }

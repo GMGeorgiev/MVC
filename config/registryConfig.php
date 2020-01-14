@@ -10,7 +10,7 @@ return [
         'View' => 'core\View\ViewInterface',
         'QueryBuilder' => 'core\DB\QueryBuilderInterface',
         'Authentication' => 'core\Authentication\AuthenticationInterface',
-        //Add services here
+        //Add services => interface here
     ]
 ];
 

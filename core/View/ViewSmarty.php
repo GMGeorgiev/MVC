@@ -26,7 +26,7 @@ class ViewSmarty implements ViewInterface
         $this->templateEngine->setCompileDir(Registry::get('Config')->getProperty('templateEngine', 'cache'));
     }
 
-    public function render($templateName, $templateValues)
+    public function render($templateName, $templateValues=[])
     {
         if (!empty($templateValues)) {
             foreach ($templateValues as $key => $value) {

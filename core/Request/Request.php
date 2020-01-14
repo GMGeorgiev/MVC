@@ -3,6 +3,7 @@
 namespace core\Request;
 
 use core\Request\RequestInterface;
+use core\Registry;
 use Exception;
 
 class Request implements RequestInterface
@@ -161,7 +162,7 @@ class Request implements RequestInterface
             $url = $_GET['url'];
             return $url;
         } else {
-            throw new Exception('URL not properly set');
+            throw new Exception("URL not properly set");
         }
     }
 
