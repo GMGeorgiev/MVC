@@ -160,6 +160,8 @@ class Request implements RequestInterface
         if (isset($_GET['url'])) {
             $url = $_GET['url'];
             return $url;
+        } else {
+            throw new Exception('URL not properly set');
         }
     }
 

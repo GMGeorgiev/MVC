@@ -3,6 +3,7 @@
 namespace core;
 
 use core\Registry;
+use Exception;
 
 class App
 {
@@ -62,6 +63,8 @@ class App
         $content = $this->router->callAction();
         if ($content) {
             return $this->getResponseContent($content);
+        } else {
+            throw new Exception('Controller content not returned');
         }
     }
 }
