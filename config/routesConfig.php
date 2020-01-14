@@ -2,7 +2,7 @@
 
 return [
     'routes' => [
-        'home',
+        //Example: 'home'
         //Add your controller names here!
     ]
 ];
