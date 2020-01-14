@@ -28,7 +28,7 @@ class ViewSmarty implements ViewInterface
 
     public function render($templateName, $templateValues=[])
     {
-        if (!empty($templateValues)) {
+        if (is_array($templateValues)) {
             foreach ($templateValues as $key => $value) {
                 $this->templateEngine->assign($key, $value);
             }

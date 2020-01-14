@@ -11,7 +11,7 @@ class Request implements RequestInterface
     private $requestProperties = array();
     private $url = array();
     private $ip;
-    public $headers = array();
+    private $headers = array();
     private $cookies = array();
     private $type;
     private $files;
