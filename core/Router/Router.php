@@ -31,28 +31,20 @@ class Router implements RouterInterface
 
     private function setController($parsedParams): void
     {
-        strlen($parsedParams[0]);
-        if (in_array($parsedParams[0], $this->routes) && isset($parsedParams[0])) {
-            $this->controller = $parsedParams[0];
-            unset($this->url[0]);
-            $filepath = self::PATH . $this->controller . self::EXT;
-            if(file_exists($filepath)){
-                require_once($filepath);
-            } else {
-                throw new Exception('File does not exist!');
-            }
-            $this->controller = new $this->controller;
+        $controllerName = (isset($parsedParams[0])) ? $parsedParams[0]:'';
+        if($controllerName && array_key_exists($controllerName,$this->routes)) {
+            $this->controller = new $this->routes[$controllerName];
         } else {
-            throw new Exception('Controller does not exist');
+            throw new Exception('Controller or action do not exist');
         }
     }
 
     private function setAction($parsedParams): void
     {
-        if (isset($this->controller) && isset($parsedParams[1])) {
-            if (method_exists($this->controller, $parsedParams[1])) {
-                $this->action = $parsedParams[1];
-                unset($this->url[1]);
+        $actionName = (isset($parsedParams[1])) ? $parsedParams[1]:'';
+        if (isset($this->controller) && $actionName) {
+            if (method_exists($this->controller, $actionName)) {
+                $this->action = $actionName;
             } else {
                 throw new Exception("Method doesn't exist!");
             }
