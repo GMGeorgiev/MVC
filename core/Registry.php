@@ -31,7 +31,8 @@ class Registry
         }
 
         //set instante in _instances array if properly validated
-        self::$_instances[$key] = $instance;
+        $explodedKey = explode("\\", $key);
+        self::$_instances[end($explodedKey)] = $instance;
     }
 
     public static function getAllowedKeys()

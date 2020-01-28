@@ -1,0 +1,1 @@
+Each template engine must implement ViewInterface and be configured in config/templateEngine.php
