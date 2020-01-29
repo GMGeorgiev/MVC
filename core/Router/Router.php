@@ -25,36 +25,28 @@ class Router implements RouterInterface
     {
         $this->url = explode('/', filter_var(rtrim($url, '/'), FILTER_SANITIZE_URL));
         $this->setController($this->url);
-        $this->setAction($this->url);
         $this->setParams($this->url);
     }
 
     private function setController($parsedParams): void
     {
-        strlen($parsedParams[0]);
-        if (in_array($parsedParams[0], $this->routes) && isset($parsedParams[0])) {
-            $this->controller = $parsedParams[0];
-            unset($this->url[0]);
-            $filepath = self::PATH . $this->controller . self::EXT;
-            if(file_exists($filepath)){
-                require_once($filepath);
-            } else {
-                throw new Exception('File does not exist!');
-            }
-            $this->controller = new $this->controller;
+        $controllerName = (isset($parsedParams[0])) ? $parsedParams[0]:'';
+        $actionName = (isset($parsedParams[1])) ? $parsedParams[1]:'index';
+        if($controllerName && array_key_exists($controllerName,$this->routes)) {
+            $this->controller = new $this->routes[$controllerName];
+            $this->setAction($actionName);
         } else {
             throw new Exception('Controller does not exist');
         }
     }
 
-    private function setAction($parsedParams): void
+    private function setAction($actionName='index'): void
     {
-        if (isset($this->controller) && isset($parsedParams[1])) {
-            if (method_exists($this->controller, $parsedParams[1])) {
-                $this->action = $parsedParams[1];
-                unset($this->url[1]);
+        if (isset($this->controller)) {
+            if (method_exists($this->controller, $actionName)) {
+                $this->action = $actionName;
             } else {
-                throw new Exception("Method doesn't exist!");
+                throw new Exception("Action does not exist!");
             }
         }
     }
