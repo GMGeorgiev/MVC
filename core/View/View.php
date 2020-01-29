@@ -6,7 +6,7 @@ use core\View\ViewInterface;
 use Smarty;
 use core\Registry;
 
-class ViewSmarty implements ViewInterface
+class View implements ViewInterface
 {
     private $templateEngine;
 
