@@ -25,7 +25,6 @@ class Router implements RouterInterface
     {
         $this->url = explode('/', filter_var(rtrim($url, '/'), FILTER_SANITIZE_URL));
         $this->setController($this->url);
-        $this->setParams($this->url);
     }
 
     private function setController($parsedParams): void
@@ -51,17 +50,10 @@ class Router implements RouterInterface
         }
     }
 
-    private function setParams($parsedParams): void
-    {
-        if (!empty($parsedParams)) {
-            $this->params = $parsedParams;
-        }
-    }
-
     public function callAction()
     {
         if (isset($this->controller) && isset($this->action)) {
-            return call_user_func_array([$this->controller, $this->action], $this->params);
+            return call_user_func_array([$this->controller, $this->action],[]);
         } else {
             throw new Exception('Controller and/or action not set!');
         }
