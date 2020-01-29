@@ -3,14 +3,14 @@ Controllers
 Example controller for model "UserModel":
 ```php
 <?php
+namespace app\controllers;
 
-use app\models\UserModel;
+use app\models\User;
 
-class User{
-
+class Home {
     function index(){
-       $userModel = new UserModel([]);
-       return $userModel()->hi();
+        $user = new User([]);
+        return ['',[]];
     }
 }
 ```
@@ -26,16 +26,12 @@ Example Model:
 
 ```php
 <?php
-
 namespace app\models;
+
 use core\Model\Model;
 
-class UserModel extends Model
-{
-    function hi()
-    {
-        echo 'Hi';
-    }
+class User extends Model {
+
 }
 ```
 Models must inherit the base Model. Including is not needed

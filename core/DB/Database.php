@@ -15,7 +15,7 @@ class Database implements DatabaseInterface
     private $con;
     private $result = [];
 
-    private function __construct()
+    public function __construct()
     {
         $this->connect();
     }
@@ -49,14 +49,6 @@ class Database implements DatabaseInterface
         } catch (PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
-    }
-    public static function getInstance()
-    {
-        if (!self::$instance) {
-            self::$instance = new Database();
-        }
-
-        return self::$instance;
     }
 
     public function getConnection()
