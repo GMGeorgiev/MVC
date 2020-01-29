@@ -8,41 +8,37 @@ use Exception;
 use PDO;
 use PDOException;
 
-
-class Database implements DatabaseInterface
-{
+class Database implements DatabaseInterface {
     private static $instance = null;
     private $con;
     private $result = [];
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->connect();
     }
-    private function getDBName()
-    {
+
+    private function getDBName() {
         $dbName = Registry::get('Config')->getProperty('database', 'DB_NAME');
         return $dbName;
     }
-    private function getDBHost()
-    {
+
+    private function getDBHost() {
         $dbHost = Registry::get('Config')->getProperty('database', 'DB_HOST');
         return $dbHost;
     }
-    private function getDBUser()
-    {
+
+    private function getDBUser() {
         $dbUser = Registry::get('Config')->getProperty('database', 'DB_USER');
         return $dbUser;
     }
-    private function getDBPsswd()
-    {
+
+    private function getDBPsswd() {
         $dbPsswd = Registry::get('Config')->getProperty('database', 'DB_PSSWD');
         return $dbPsswd;
     }
 
 
-    private function connect()
-    {
+    private function connect() {
         try {
             $this->con = new PDO("mysql:host={$this->getDBHost()};dbname={$this->getDBName()}", $this->getDBUser(), $this->getDBPsswd());
             $this->con->setAttribute(PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
@@ -51,13 +47,11 @@ class Database implements DatabaseInterface
         }
     }
 
-    public function getConnection()
-    {
+    public function getConnection() {
         return $this->con;
     }
 
-    public function query($sql, $params = [])
-    {
+    public function query($sql, $params = []) {
         $query = $this->con->prepare($sql);
         if ($query->execute($params)) {
             if ($this->resultFlag($sql)) {
@@ -70,8 +64,8 @@ class Database implements DatabaseInterface
         }
         return $this->result;
     }
-    private function resultFlag($sql)
-    {
+
+    private function resultFlag($sql) {
         $result = false;
         if (strpos($sql, 'SELECT') === 0) {
             $result = true;
