@@ -1,10 +1,10 @@
 {
-    "name": "carolusrex/carolusrex",
+    "name": "caVeman/caVeman",
     "description": "MVC framework",
     "type": "project",
     "require": {
         "smarty/smarty": "^3.1@dev"
     },
-    "license": "scalefocus",
+    "license": "ggeorgiev",
     "minimum-stability": "dev"
 }
