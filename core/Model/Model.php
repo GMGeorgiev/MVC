@@ -10,19 +10,19 @@ class Model
     public $db;
     public $table;
     private $prKey = "id";
-    private $allowedColumns = [];
+    private $allowedColumns = array();
     public $query;
 
-    public function __construct($data = [])
+    public function __construct()
     {
         $this->query = new QueryBuilder();
         $this->db = Registry::get('Database');
-        $this->setProperties($data);
     }
-    protected function setProperties($data)
+    public function setProperties($data)
     {
         foreach ($data as $key => $value) {
             $this->{$key} = $value;
+            array_push($this->allowedColumns,$key);
         }
     }
 
@@ -38,6 +38,7 @@ class Model
         }
         $sql = $this->query->getQuery();
         $result = $this->db->query($sql);
+        $this->setProperties($result);
         $this->query->deleteQuery();
         return $result;
     }
@@ -70,8 +71,8 @@ class Model
                 $this->makeExpression()
             )
             ->getQuery();
-        echo $sql;
         $this->db->query($sql, array_values($this->makeExpression()));
+        $this->{$this->prKey} = $this->db->getConnection()->lastInsertId();
         $this->query->deleteQuery();
     }
 
@@ -84,7 +85,6 @@ class Model
                 $this->query->whereAnd("{$this->prKey} = \"{$this->{$this->prKey}}\"")
             )
             ->getQuery();
-        echo $sql;
         $this->db->query($sql);
         $this->query->deleteQuery();
     }
