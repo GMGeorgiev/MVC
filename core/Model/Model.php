@@ -34,6 +34,7 @@ class Model
 
     public function find($key, $column = null)
     {
+        $objectFound = false;
         $sql = $this->query
             ->select($this->table, "*")
             ->where(
@@ -44,14 +45,18 @@ class Model
         }
         $sql = $this->query->getQuery();
         $result = $this->db->query($sql);
+        if(count($result) > 0 ) {
+            $objectFound = true;
+            $result = reset($result);
+        }
         $this->setProperties($result);
         $this->query->deleteQuery();
-        return $result;
+        return $objectFound;
     }
 
     public function save()
     {
-        if (count($this->find($this->{$this->prKey}))) {
+        if ($this->find($this->{$this->prKey})) {
             $this->update();
         } else {
             $this->insert();
