@@ -7,14 +7,16 @@ use core\Registry;
 
 class Model
 {
-    public $db;
-    public $table;
-    private $prKey = "id";
-    private $allowedColumns = array();
-    public $query;
+    protected $db;
+    protected $table;
+    protected $prKey = "id";
+    protected $allowedColumns = array();
+    protected $query;
 
     public function __construct()
     {
+        $className = explode('\\', get_class($this));
+        $this->table = end($className);
         $this->query = new QueryBuilder();
         $this->db = Registry::get('Database');
     }
@@ -22,7 +24,7 @@ class Model
     {
         foreach ($data as $key => $value) {
             $this->{$key} = $value;
-            array_push($this->allowedColumns,$key);
+            array_push($this->allowedColumns, $key);
         }
     }
 
