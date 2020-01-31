@@ -15,10 +15,14 @@ class Model
 
     public function __construct()
     {
-        $className = explode('\\', get_class($this));
-        $this->table = end($className);
+        $this->table = $this->tableSetter();
         $this->query = new QueryBuilder();
         $this->db = Registry::get('Database');
+    }
+    private function tableSetter(){
+        $className = explode('\\', get_class($this));
+        $table = strtolower(end($className)).'s';
+        return $table;
     }
     public function setProperties($data)
     {
