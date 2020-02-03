@@ -175,7 +175,9 @@ class QueryBuilder implements QueryBuilderInterface
 
     public function getQuery()
     {
-        return $this->query;
+        $query = $this->query;
+        $this->deleteQuery();
+        return $query;
     }
 
     public function deleteQuery(): void

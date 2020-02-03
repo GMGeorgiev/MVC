@@ -19,9 +19,10 @@ class Model
         $this->query = new QueryBuilder();
         $this->db = Registry::get('Database');
     }
-    private function tableSetter(){
+    private function tableSetter()
+    {
         $className = explode('\\', get_class($this));
-        $table = strtolower(end($className)).'s';
+        $table = strtolower(end($className)) . 's';
         return $table;
     }
     public function setProperties($data)
@@ -45,7 +46,7 @@ class Model
         }
         $sql = $this->query->getQuery();
         $result = $this->db->query($sql);
-        if(count($result) > 0 ) {
+        if (count($result) > 0) {
             $objectFound = true;
             $result = reset($result);
         }
