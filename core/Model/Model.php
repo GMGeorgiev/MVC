@@ -54,7 +54,7 @@ class Model
             $result = $this->findByValue([$this->prKey => $id]);
             $this->$this->setProperties($result);
         }
-        return $this;
+        return $result;
     }
 
     public function findByValue(array $values)
