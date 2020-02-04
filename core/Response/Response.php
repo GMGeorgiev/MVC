@@ -24,7 +24,11 @@ class Response implements ResponseInterface
             $this->headers[$name] = $value;
         }
     }
-
+    public function setHeaderLocation($headerDir)
+    {
+        header('Location: ' . Registry::get('Request')->getURLScheme() . Registry::get('Request')->getURLDomain() . '/' . $headerDir);
+        exit;
+    }
     public function setHeaderType($type)
     {
         if (isset($type)) {
