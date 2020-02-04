@@ -19,7 +19,7 @@ class Model
         $this->table = $this->tableSetter();
         $this->query = new QueryBuilder();
         $this->db = Registry::get('Database');
-        $this->{$this->prKey} = null;
+        $this->{$this->prKey} = 0;
     }
 
     private function tableSetter()
@@ -116,22 +116,13 @@ class Model
         $this->db->query($sql);
     }
 
-    private function isAllowedKey($key)
-    {
-        $notAllowed = ['prKey', 'db', 'table'];
-        $result = false;
-        if ((empty($this->allowedColumns) || in_array($key, $this->allowedColumns)) && !in_array($key, $notAllowed)) {
-            $result = true;
-        }
-        return $result;
-    }
 
     private function makeExpression()
     {
         $properties = get_object_vars($this);
         $expressions = [];
         foreach ($properties as $key => $value) {
-            if ($this->isAllowedKey($key)) {
+            if (in_array($key, $this->getTableColumns())) {
                 $expressions[$key] = $value;
             } else {
                 continue;
