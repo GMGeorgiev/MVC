@@ -4,7 +4,6 @@ namespace core\Model;
 
 use core\DB\QueryBuilder;
 use core\Registry;
-use PDO;
 
 class Model
 {
@@ -31,16 +30,18 @@ class Model
 
     private function getTableColumns()
     {
-        $query = $this->db->getConnection()->prepare("DESCRIBE {$this->table}");
-        $query->execute();
-        $columns = $query->fetchAll(PDO::FETCH_COLUMN);
+        $sql = Registry::get('QueryBuilder')
+            ->select($this->table, "*")
+            ->getQuery();
+        $results = $this->db->query($sql);
+        $columns = array_keys($results[0]);
         return $columns;
     }
 
     public function setProperties($data)
     {
         foreach ($data as $key => $value) {
-            if (in_array($key, $this->getTableColumns())) {
+            if (in_array($key, $this->getTableColumns()) && $key != $this->prKey) {
                 $this->{$key} = $value;
                 array_push($this->allowedColumns, $key);
             }
@@ -50,9 +51,12 @@ class Model
     public function find($id)
     {
         $result = false;
-        if (isset($this->{$this->prKey})) {
+        if ($this->{$this->prKey}) {
             $result = $this->findByValue([$this->prKey => $id]);
-            $this->$this->setProperties($result);
+            if (count($result) > 0) {
+                $this->setProperties(reset($result));
+                $this->setId(reset($result));
+            }
         }
         return $result;
     }
@@ -69,8 +73,18 @@ class Model
             ->getQuery();
 
         $result = $this->db->query($sql);
-        $this->setProperties($result);
+        if (count($result) > 0) {
+            $this->setProperties(reset($result));
+            $this->setId(reset($result));
+        }
         return $this;
+    }
+
+    private function setId($result)
+    {
+        if (isset($result[$this->prKey])) {
+            $this->{$this->prKey} = $result[$this->prKey];
+        }
     }
 
     public function save()
