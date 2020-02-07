@@ -40,7 +40,7 @@ class Response implements ResponseInterface
         return $this;
     }
 
-    private function getHeaderType()
+    public function getHeaderType()
     {
         try {
             $result = explode(',', getallheaders()['Accept'])[0];
