@@ -29,17 +29,20 @@ class Router implements RouterInterface
 
     private function setController($parsedParams): void
     {
-        $controllerName = (isset($parsedParams[0])) ? $parsedParams[0]:'';
-        $actionName = (isset($parsedParams[1])) ? $parsedParams[1]:'index';
-        if($controllerName && array_key_exists($controllerName,$this->routes)) {
+        $controllerName = (isset($parsedParams[0])) ? $parsedParams[0] : '';
+        array_shift($parsedParams);
+        $actionName = (isset($parsedParams[0])) ? $parsedParams[0] : 'index';
+        array_shift($parsedParams);
+        if ($controllerName && array_key_exists($controllerName, $this->routes)) {
             $this->controller = new $this->routes[$controllerName];
             $this->setAction($actionName);
+            $this->setParameters($parsedParams);
         } else {
             throw new Exception('Controller does not exist');
         }
     }
 
-    private function setAction($actionName='index'): void
+    private function setAction($actionName = 'index'): void
     {
         if (isset($this->controller)) {
             if (method_exists($this->controller, $actionName)) {
@@ -49,11 +52,18 @@ class Router implements RouterInterface
             }
         }
     }
-
+    private function setParameters($parsedParams): void
+    {
+        if (!empty($parsedParams)) {
+            foreach ($parsedParams as $value) {
+                array_unshift($this->params, $value);
+            }
+        }
+    }
     public function callAction()
     {
         if (isset($this->controller) && isset($this->action)) {
-            return call_user_func_array([$this->controller, $this->action],[]);
+            return call_user_func_array([$this->controller, $this->action], $this->params);
         } else {
             throw new Exception('Controller and/or action not set!');
         }

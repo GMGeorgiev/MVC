@@ -10,7 +10,6 @@ class Model
     protected $db;
     protected $table;
     protected $prKey = "id";
-    protected $allowedColumns = array();
     protected $query;
 
     public function __construct()
@@ -30,20 +29,34 @@ class Model
 
     private function getTableColumns()
     {
-        $sql = Registry::get('QueryBuilder')
-            ->select($this->table, "*")
-            ->getQuery();
-        $results = $this->db->query($sql);
-        $columns = array_keys($results[0]);
+        $conn = $this->db->getConnection();
+        $query = $conn->prepare("DESCRIBE {$this->table}");
+        $query->execute();
+        $columns = $query->fetchAll(\PDO::FETCH_COLUMN);
         return $columns;
     }
-
+    public function exists()
+    {
+        $exists = false;
+        $sql = $this->query
+            ->select($this->table, "*")
+            ->where(
+                $this->query->whereAnd(
+                    "{$this->prKey} = \"{$this->{$this->prKey}}\""
+                )
+            )
+            ->getQuery();
+        $result = $this->db->query($sql);
+        if (!empty($result)) {
+            $exists = true;
+        }
+        return $exists;
+    }
     public function setProperties($data)
     {
         foreach ($data as $key => $value) {
             if (in_array($key, $this->getTableColumns()) && $key != $this->prKey) {
                 $this->{$key} = $value;
-                array_push($this->allowedColumns, $key);
             }
         }
     }
@@ -53,10 +66,6 @@ class Model
         $result = false;
         if ($this->{$this->prKey}) {
             $result = $this->findByValue([$this->prKey => $id]);
-            if (count($result) > 0) {
-                $this->setProperties(reset($result));
-                $this->setId(reset($result));
-            }
         }
         return $result;
     }
@@ -86,10 +95,13 @@ class Model
             $this->{$this->prKey} = $result[$this->prKey];
         }
     }
-
+    public function getPrKey()
+    {
+        return $this->prKey;
+    }
     public function save()
     {
-        if ($this->find($this->{$this->prKey})) {
+        if ($this->exists()) {
             $this->update();
         } else {
             $this->insert();
@@ -127,7 +139,7 @@ class Model
                 $this->query->whereAnd("{$this->prKey} = \"{$this->{$this->prKey}}\"")
             )
             ->getQuery();
-        $this->db->query($sql);
+        $this->db->query($sql, array_values($this->makeExpression()));
     }
 
 
