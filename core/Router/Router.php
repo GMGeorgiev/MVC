@@ -23,9 +23,7 @@ class Router implements RouterInterface
 
     public function parseUrl($url)
     {
-        $url = base64_encode($url);
-        $url = base64_decode($url);
-        $this->url = explode('/', filter_var(rtrim($url, '/')));
+        $this->url = explode('/', filter_var(rtrim($url, '/'), FILTER_SANITIZE_URL));
         $this->setController($this->url);
     }
 
