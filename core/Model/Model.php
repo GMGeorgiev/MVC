@@ -35,7 +35,7 @@ class Model
         $columns = $query->fetchAll(\PDO::FETCH_COLUMN);
         return $columns;
     }
-    private function exists()
+    public function exists()
     {
         $exists = false;
         $sql = $this->query
