@@ -62,7 +62,11 @@ class App
         try {
             $this->router->parseUrl($this->request->getFullURL());
             $content = $this->router->callAction();
-            return $this->getResponseContent($content);
+            if (Registry::get('Response')->getHeaderType() == 'json') {
+                return $content;
+            } else {
+                return $this->getResponseContent($content);
+            }
         } catch (Exception $e) {
             Registry::get('Response')->setHeaderErrorCode(404, "Error Page not found");
             return $this->getResponseContent('404error.tpl');

@@ -26,7 +26,7 @@ class View implements ViewInterface
         $this->templateEngine->setCompileDir(Registry::get('Config')->getProperty('templateEngine', 'cache'));
     }
 
-    public function render($templateName, $templateValues=[])
+    public function render($templateName, $templateValues = [])
     {
         if (is_array($templateValues)) {
             foreach ($templateValues as $key => $value) {
@@ -34,5 +34,11 @@ class View implements ViewInterface
             }
         }
         $this->templateEngine->display($templateName);
+    }
+    public function assign(array $values)
+    {
+        foreach ($values as $key => $value) {
+            $this->templateEngine->assign($key, $value);
+        }
     }
 }

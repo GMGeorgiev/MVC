@@ -4,6 +4,7 @@ namespace core\Model;
 
 use core\DB\QueryBuilder;
 use core\Registry;
+use core\libs\Plural;
 
 class Model
 {
@@ -23,11 +24,11 @@ class Model
     private function tableSetter()
     {
         $className = explode('\\', get_class($this));
-        $table = strtolower(end($className)) . 's';
+        $table = strtolower(Plural::pluralize(end($className)));
         return $table;
     }
 
-    private function getTableColumns()
+    protected function getTableColumns()
     {
         $conn = $this->db->getConnection();
         $query = $conn->prepare("DESCRIBE {$this->table}");
@@ -35,7 +36,7 @@ class Model
         $columns = $query->fetchAll(\PDO::FETCH_COLUMN);
         return $columns;
     }
-    public function exists()
+    protected function exists()
     {
         $exists = false;
         $sql = $this->query
@@ -52,7 +53,7 @@ class Model
         }
         return $exists;
     }
-    public function setProperties($data)
+    public function setPropertyValues(array $data)
     {
         foreach ($data as $key => $value) {
             if (in_array($key, $this->getTableColumns()) && $key != $this->prKey) {
@@ -64,9 +65,7 @@ class Model
     public function find($id)
     {
         $result = false;
-        if ($this->{$this->prKey}) {
-            $result = $this->findByValue([$this->prKey => $id]);
-        }
+        $result = $this->findByValue([$this->prKey => $id]);
         return $result;
     }
 
@@ -83,7 +82,7 @@ class Model
 
         $result = $this->db->query($sql);
         if (count($result) > 0) {
-            $this->setProperties(reset($result));
+            $this->setPropertyValues(reset($result));
             $this->setId(reset($result));
         }
         return $this;

@@ -18,7 +18,7 @@ class QueryBuilder implements QueryBuilderInterface
         $tableName = "`{$tableName}`";
         if (is_array($params)) {
             $params = array_map(function ($val) {
-                return "`{$val}`";
+                return "{$val}";
             }, $params);
         }
         $paramsString = '';

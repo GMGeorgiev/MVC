@@ -2,7 +2,10 @@
 
 namespace core\Authentication;
 
+use app\models\User;
+
 interface AuthenticationInterface
 {
-    public function authenticate();
+    public function authenticate(User $user);
+    public function isAuthenticated();
 }
