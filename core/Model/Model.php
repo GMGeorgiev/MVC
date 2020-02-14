@@ -60,6 +60,7 @@ class Model
                 $this->{$key} = $value;
             }
         }
+        return $this;
     }
 
     public function find($id)
