@@ -18,18 +18,28 @@ class Request implements RequestInterface
 
     public function __construct()
     {
+        $this->init();
+    }
+    public function init()
+    {
         if ($_FILES) {
             $this->files = $this->evalUploadedFiles();
         }
-
-        $this->cookies = $_COOKIE;
+        if (!empty($_COOKIE)) {
+            $this->cookies = $_COOKIE;
+        }
         $this->evalHeader();
-        $this->type = $_SERVER['REQUEST_METHOD'];
-        $this->ip = $_SERVER['REMOTE_ADDR'];
-        $this->evalRequest();
-        $this->url = parse_url($this->getRequestURL());
+        if (isset($_SERVER['REQUEST_METHOD'])) {
+            $this->type = $_SERVER['REQUEST_METHOD'];
+            $this->evalRequest();
+        }
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            $this->ip = $_SERVER['REMOTE_ADDR'];
+        }
+        if ($this->getRequestURL()) {
+            $this->url = parse_url($this->getRequestURL());
+        }
     }
-
 
     private function evalUploadedFiles()
     {
@@ -127,13 +137,14 @@ class Request implements RequestInterface
     private function getRequestURL()
     {
         $currentURL = isset($_SERVER["HTTPS"]) ? "https://" : "http://";
-        $currentURL .= $_SERVER["SERVER_NAME"];
+        $currentURL .= isset($_SERVER["SERVER_NAME"]) ? $_SERVER["SERVER_NAME"] : '';
+        $serverPort = isset($_SERVER["SERVER_PORT"]) ? $_SERVER["SERVER_PORT"] : '';
 
-        if ($_SERVER["SERVER_PORT"] != "80" && $_SERVER["SERVER_PORT"] != "443") {
-            $currentURL .= ":" . $_SERVER["SERVER_PORT"];
+        if ($serverPort != "80" && $serverPort != "443") {
+            $currentURL .= ":" . $serverPort;
         }
 
-        $currentURL .= $_SERVER["REQUEST_URI"];
+        $currentURL .= isset($_SERVER["REQUEST_URI"]) ? $_SERVER["REQUEST_URI"] : '';
         return $currentURL;
     }
     public function getURLScheme()

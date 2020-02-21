@@ -16,7 +16,7 @@ autloadInterfaces();
 
 function autloadInterfaces()
 {
-    $dir = '../core/*';
+    $dir = __DIR__ . '/../core/*';
     foreach (glob($dir) as $file) {
         if (filetype($file) == 'dir') {
             foreach (glob($file . '/*') as $folder) {

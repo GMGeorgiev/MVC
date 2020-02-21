@@ -1,8 +1,8 @@
 <?php
 
 //autoloaders and includes
-include_once('../core/autoloader.php');
-include_once('../vendor/autoload.php');
+include_once(__DIR__ . '/../core/autoloader.php');
+include_once(__DIR__ . '/../vendor/autoload.php');
 
 //Namespaces
 use core\Config\Config,
@@ -19,8 +19,8 @@ use core\Config\Config,
 
 //Set services here
 
-foreach(Registry::getAllowedKeys() as $key=>$value){
-    Registry::set($key, new $key()); 
+foreach (Registry::getAllowedKeys() as $key => $value) {
+    Registry::set($key, new $key());
 }
 
 //get App instance
