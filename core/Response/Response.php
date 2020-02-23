@@ -42,23 +42,32 @@ class Response implements ResponseInterface
 
     public function getHeaderType()
     {
+        $result = FALSE;
         try {
-            $result = explode(',', getallheaders()['Accept'])[0];
-            $resultAfterSlash = explode('/', $result)[1];
-            return $resultAfterSlash;
-        } catch (Exception $e) {
+            $headers = headers_list();
+            foreach($headers as $header) {
+                if(stripos($header,"Content-Type") !== false ) {
+                    $parseHeader = explode(":",$header);
+                    $result = strtolower(trim($parseHeader[1]));
+                }
+            }
+        }catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
         }
+
+        return $result;
     }
 
     public function setContent($content, $values = array())
     {
         if (isset($content)) {
-            if (strtolower($this->getHeaderType()) == 'json') {
-                if (!$this->isJSON($content)) {
-                    $this->content = $this->makeJSON($content);
+            if (strpos($this->getHeaderType(),'json') !== false) {
+                if (!$this->isJSON($values)) {
+                    $this->content = $this->makeJSON($values);
+                } else {
+                    $this->content = $values;
                 }
-            } else if (isset($values) && isset($content)) {
+            } else if (isset($values)) {
                 $this->content = $this->view->render($content, $values);
             } else {
                 $this->content = $this->view->render($content);
@@ -82,12 +91,11 @@ class Response implements ResponseInterface
 
     private function isJSON($content)
     {
-        if (isset($content)) {
+        if (isset($content) &&is_string($content)) {
             json_decode($content);
-            return (json_last_error() == JSON_ERROR_NONE);
-        } else {
-            throw new Exception('Content requirement not met!');
-        }
+            return (json_last_error() === JSON_ERROR_NONE);
+        } 
+        return FALSE;
     }
 
     private function makeJSON($content)
