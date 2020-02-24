@@ -40,7 +40,7 @@ class Response implements ResponseInterface
         return $this;
     }
 
-    public function getHeaderType()
+    public function getResponseFormat()
     {
         $result = FALSE;
         try {
@@ -61,7 +61,7 @@ class Response implements ResponseInterface
     public function setContent($content, $values = array())
     {
         if (isset($content)) {
-            if (strpos($this->getHeaderType(),'json') !== false) {
+            if (strpos($this->getResponseFormat(),'json') !== false) {
                 if (!$this->isJSON($values)) {
                     $this->content = $this->makeJSON($values);
                 } else {
