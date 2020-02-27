@@ -9,7 +9,7 @@
 	<title>404</title>
 	<link href="https://fonts.googleapis.com/css?family=Cabin:400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:900" rel="stylesheet">
-	<link type="text/css" rel="stylesheet" href="resources/css/404style.css" />
+	<link rel="stylesheet" href="/resources/css/404style.css">
 </head>
 
 <body>
@@ -21,6 +21,7 @@
 				<h1><span>4</span><span>0</span><span>4</span></h1>
 			</div>
 			<h2>we are sorry, but the page you requested was not found</h2>
+			<h2>Error: {$error}</h2>
 		</div>
 	</div>
 

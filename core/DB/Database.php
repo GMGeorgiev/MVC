@@ -10,7 +10,6 @@ use PDOException;
 
 class Database implements DatabaseInterface
 {
-    private static $instance = null;
     private $con;
     private $result = [];
 

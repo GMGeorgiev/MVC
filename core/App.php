@@ -64,9 +64,7 @@ class App
             $content = $this->router->callAction();
             echo  $this->getResponseContent($content);
         } catch (Exception $e) {
-            Registry::get('Response')->setHeaderErrorCode(404, "Error Page not found");
-            return $this->getResponseContent('404error.tpl');
-            die();
+            return $this->getResponseContent(['404error.tpl', ['error' => $e->getMessage()]]);
         }
     }
 }
