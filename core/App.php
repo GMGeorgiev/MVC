@@ -65,7 +65,6 @@ class App
             echo  $this->getResponseContent($content);
         } catch (Exception $e) {
             return $this->getResponseContent(['404error.tpl', ['error' => $e->getMessage()]]);
-            //die();
         }
     }
 }
