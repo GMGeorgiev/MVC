@@ -63,11 +63,12 @@ class Model
         return $this;
     }
 
-    public function find($id)
+    public static function find($id)
     {
-        $result = false;
-        $result = $this->findByValue([$this->prKey => $id]);
-        return $result;
+        $className = get_called_class();
+        $model = new $className();
+        $model->findByValue([$model->getPrKey() => $id]);
+        return $model;
     }
 
     public function findByValue(array $values)

@@ -6,4 +6,14 @@
 .idea/MVC.iml
 .idea/workspace.xml
 .idea/misc.xml
-.idea/original_mvc.iml
+error.log
+requests.log
+composer.phar
+/.vagrant/
+composer.lock
+/.vscode/
+tests/unit.suite.yml
+tests/functional.suite.yml
+tests/acceptance.suite.yml
+codeception.yml
+composer.lock

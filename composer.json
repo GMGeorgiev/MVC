@@ -1,10 +1,17 @@
 {
-    "name": "caVeman/caVeman",
+    "name": "caveman/caveman",
     "description": "MVC framework",
     "type": "project",
     "require": {
         "smarty/smarty": "^3.1@dev"
     },
     "license": "scalefocus",
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require-dev": {
+        "codeception/codeception": "^4.1",
+        "codeception/module-webdriver": "dev-master",
+        "codeception/module-db": "dev-master",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0"
+    }
 }

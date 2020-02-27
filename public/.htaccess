@@ -1,6 +1,7 @@
 Options -MultiViews
 RewriteEngine On
 RewriteBase /
+# Example when using on windows: /MVC/public/ 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 
