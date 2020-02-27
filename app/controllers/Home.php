@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Example Controller
+ */
+
 namespace app\controllers;
 
 use core\Controller\BaseController;
@@ -10,6 +14,8 @@ class Home extends BaseController
 
     function index()
     {
-        return ['', []];
+        return ['welcome.tpl', [
+            'framework' => 'caVeman'
+        ]];
     }
 }
