@@ -4,7 +4,7 @@ namespace core\Exceptions;
 
 use Exception;
 
-class ColumnNotAllowedException extends Exception
+class ColumnNotAllowed extends Exception
 {
     // Redefine the exception so message isn't optional
     public function __construct($message, $code = 0, \Exception $previous = null)

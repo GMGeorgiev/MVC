@@ -3,7 +3,7 @@
 namespace core\Model;
 
 use core\DB\QueryBuilder;
-use core\Exceptions\ColumnNotAllowedException;
+use core\Exceptions\ColumnNotAllowed;
 use core\Registry;
 use core\libs\Plural;
 
@@ -62,7 +62,7 @@ class Model
             if (in_array($key, $allowedColumns) && in_array($key, $this->getTableColumns()) && $key != $this->prKey) {
                 $this->{$key} = $value;
             } else {
-                throw new ColumnNotAllowedException("`{$key}` is not in the AllowedColumns!");
+                throw new ColumnNotAllowed("`{$key} is not in the AllowedColumns!");
             }
         }
         return $this;
