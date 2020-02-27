@@ -3,6 +3,7 @@
 namespace core\Model;
 
 use core\DB\QueryBuilder;
+use core\Exceptions\ColumnNotAllowedException;
 use core\Registry;
 use core\libs\Plural;
 
@@ -12,6 +13,7 @@ class Model
     protected $table;
     protected $prKey = "id";
     protected $query;
+    protected $allowedColumns = null;
 
     public function __construct()
     {
@@ -55,9 +57,12 @@ class Model
     }
     public function setPropertyValues(array $data)
     {
+        $allowedColumns = isset($this->allowedColumns) ? $this->allowedColumns : $this->getTableColumns();
         foreach ($data as $key => $value) {
-            if (in_array($key, $this->getTableColumns()) && $key != $this->prKey) {
+            if (in_array($key, $allowedColumns) && in_array($key, $this->getTableColumns()) && $key != $this->prKey) {
                 $this->{$key} = $value;
+            } else {
+                throw new ColumnNotAllowedException("`{$key}` is not in the AllowedColumns!");
             }
         }
         return $this;
