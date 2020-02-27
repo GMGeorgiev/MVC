@@ -22,6 +22,6 @@ class ModelGetAllTest extends \Codeception\Test\Unit
     {
         $user = new User([]);
         $users = $user->getAll();
-        $this->assertInstanceOf(User, reset($users));
+        $this->assertInstanceOf('User', reset($users));
     }
 }
