@@ -14,7 +14,8 @@ class Home extends BaseController
     function index()
     {
         return ['welcome.tpl', [
-            'framework' => 'caVeman'
+            'framework' => 'caVeman',
+            'title' => 'caVeman'
         ]];
     }
 }
