@@ -9,7 +9,7 @@
 	<title>404</title>
 	<link href="https://fonts.googleapis.com/css?family=Cabin:400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:900" rel="stylesheet">
-	<link type="text/css" rel="stylesheet" href="../resources/css/404style.css" />
+	<link rel="stylesheet" href="/resources/css/404style.css">
 </head>
 
 <body>
