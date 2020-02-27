@@ -16,3 +16,4 @@ tests/unit.suite.yml
 tests/functional.suite.yml
 tests/acceptance.suite.yml
 codeception.yml
+composer.lock
