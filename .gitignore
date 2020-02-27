@@ -6,8 +6,8 @@
 .idea/MVC.iml
 .idea/workspace.xml
 .idea/misc.xml
-../error.log
-../requests.log
+error.log
+requests.log
 composer.phar
 /.vagrant/
 composer.lock

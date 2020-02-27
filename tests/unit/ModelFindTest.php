@@ -23,6 +23,6 @@ class ModelFindTest extends \Codeception\Test\Unit
     public function testBaseModelFind()
     {
         $user = User::find(1);
-        assertEquals('test@test.test', $user->email);
+        $this->assertEquals('test@test.test', $user->email);
     }
 }
