@@ -84,7 +84,7 @@ class Request implements RequestInterface
         }
     }
 
-    public function getType()
+    public function getRequestFromat()
     {
         if (isset($this->type)) {
             return $this->type;

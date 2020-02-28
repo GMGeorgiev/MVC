@@ -4,7 +4,7 @@ namespace core\Request;
 
 interface RequestInterface
 {
-    public function getType();
+    public function getRequestFromat();
     public function isAjax();
     public function getProperty(string $key);
     public function getProperties();

@@ -45,13 +45,13 @@ class Response implements ResponseInterface
         $result = FALSE;
         try {
             $headers = headers_list();
-            foreach($headers as $header) {
-                if(stripos($header,"Content-Type") !== false ) {
-                    $parseHeader = explode(":",$header);
+            foreach ($headers as $header) {
+                if (stripos($header, "Content-Type") !== false) {
+                    $parseHeader = explode(":", $header);
                     $result = strtolower(trim($parseHeader[1]));
                 }
             }
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
         }
 
@@ -61,7 +61,7 @@ class Response implements ResponseInterface
     public function setContent($content, $values = array())
     {
         if (isset($content)) {
-            if (strpos($this->getResponseFormat(),'json') !== false) {
+            if (strpos($this->getResponseFormat(), 'json') !== false) {
                 if (!$this->isJSON($values)) {
                     $this->content = $this->makeJSON($values);
                 } else {
@@ -91,10 +91,10 @@ class Response implements ResponseInterface
 
     private function isJSON($content)
     {
-        if (isset($content) &&is_string($content)) {
+        if (isset($content) && is_string($content)) {
             json_decode($content);
             return (json_last_error() === JSON_ERROR_NONE);
-        } 
+        }
         return FALSE;
     }
 
