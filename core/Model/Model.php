@@ -85,17 +85,17 @@ class Model
         }
     }
 
-    public function getAll()
+    public static function getAll()
     {
         $className = get_called_class();
         if (class_exists($className)) {
             $model = new $className([]);
             $modelCollection = array();
-            $sql = $this->query
+            $sql = Registry::get('QueryBuilder')
                 ->select($model->table, '*')
                 ->getQuery();
-            $result = $this->db->query($sql);
-            foreach ($result as $key => $value) {
+            $result = Registry::get('Database')->query($sql);
+            foreach ($result as $value) {
                 $model = new $className($value);
                 array_push($modelCollection, $model);
             }
