@@ -28,6 +28,7 @@ class GroupByHavingTest extends \Codeception\Test\Unit
         $result = Registry::get('Database')->query($sql);
         $this->assertEquals('2', reset($result)['emails']);
     }
+
     public function testGroupByHavingNegative()
     {
         $sql = Registry::get('QueryBuilder')

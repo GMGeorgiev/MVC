@@ -17,7 +17,7 @@ class Model
     protected $query;
     protected $allowedColumns = null;
 
-    public function __construct(array $data)
+    public function __construct(array $data = [])
     {
         $this->table = $this->tableSetter();
         $this->query = new QueryBuilder();
