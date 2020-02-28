@@ -8,6 +8,7 @@ namespace app\controllers;
 
 use app\models\User;
 use core\Controller\BaseController;
+use core\Registry;
 
 class Home extends BaseController
 {

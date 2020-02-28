@@ -2,7 +2,8 @@
 
 namespace core\DB;
 
-interface QueryBuilderInterface{
+interface QueryBuilderInterface
+{
     public function select(string $tableName, $params);
     public function join($tableName, $onArray = [], string $typeofJoin = "JOIN");
     public function insert($tableName);
@@ -13,6 +14,9 @@ interface QueryBuilderInterface{
     public function where(...$args);
     public function whereAnd(string $param): string;
     public function whereOr(string $param): string;
+    public function groupBy(array $params);
+    public function having(...$args);
+    public function orderBy(array $params);
     public function getQuery();
     public function deleteQuery(): void;
 }
