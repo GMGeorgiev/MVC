@@ -53,7 +53,7 @@ class GroupByHavingTest extends \Codeception\Test\Unit
     {
         $sql = Registry::get('QueryBuilder')
             ->select('users', ['email'])
-            ->orderBy(['email LIMIT 1 DESC'])
+            ->orderBy(['email DESC LIMIT 1'])
             ->getQuery();
         $result = Registry::get('Database')->query($sql);
         $this->assertNotEquals('asd@asd.asd', reset($result)['email']);
