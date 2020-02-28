@@ -1,10 +1,12 @@
 Options -MultiViews
 RewriteEngine On
 RewriteCond %{QUERY_STRING} os=windows
+#configure for windows:
 RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
 RewriteCond %{QUERY_STRING} os=linux
+#configure for linux:
 RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-
+#default RewriteRule, comment if using OS rewrite conditions
 RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
