@@ -88,3 +88,53 @@ use core\Config\Config,
     core\Authentication\Authentication,
     core\Utility\Utility;
 ```
+Query Builder Examples:
+===
+
+Select:
+---
+```
+Registry::get('QueryBuilder')
+            ->select('users', ['email'])
+            ->orderBy(['email LIMIT 1'])
+            ->getQuery();
+// SELECT email FROM `users` ORDER BY email LIMIT 1;
+```
+
+Update:
+---
+```
+$sql = Registry::get('QueryBuilder')
+			->update('users')
+            ->set(['name'=>'Georgi'])
+            ->where(
+                $this->Registry::get('QueryBuilder')->whereAnd("id = 1")
+            )
+            ->getQuery();
+// UPDATE `users` SET name=? where id = 1;
+Registry::get('Database')->query($sql,['Georgi'])//here you bing your parameters
+```
+
+Insert:
+---
+```
+$sql = Registry::get('QueryBuilder')
+			->insert('users')
+            ->values(['name'=>'Georgi'])
+            ->getQuery();
+// INSERT INTO `users` ('name') VALUES ('?');
+Registry::get('Database')->query($sql,['Georgi'])//here you bing your parameters
+```
+
+Delete:
+---
+```
+$sql = Registry::get('QueryBuilder')
+			->delete('users')
+            ->->where(
+                $this->Registry::get('QueryBuilder')->whereAnd("id = 1")
+            )
+            ->getQuery();
+// DELETE FROM `users` WHERE id = 1;
+```
+
