@@ -36,6 +36,13 @@ class User extends Model {
 ```
 Models must inherit the base Model. Including is not needed
 
+find() and getAll() methods:
+---
+```
+$user = User::find(7);//returns a new User model with id 7
+$userCollection = User::getAll();//returns all users as objects
+```
+
 Config Files
 ===
 In registryConfig, a new service must be registered with namespace and interface its implementing like:
