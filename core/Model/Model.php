@@ -3,9 +3,11 @@
 namespace core\Model;
 
 use core\DB\QueryBuilder;
+use core\Exceptions\ClassDoesntExist;
 use core\Exceptions\ColumnNotAllowed;
 use core\Registry;
 use core\libs\Plural;
+use Exception;
 
 class Model
 {
@@ -15,12 +17,13 @@ class Model
     protected $query;
     protected $allowedColumns = null;
 
-    public function __construct()
+    public function __construct(array $data)
     {
         $this->table = $this->tableSetter();
         $this->query = new QueryBuilder();
         $this->db = Registry::get('Database');
         $this->{$this->prKey} = 0;
+        $this->setPropertyValues($data);
     }
 
     private function tableSetter()
@@ -61,6 +64,8 @@ class Model
         foreach ($data as $key => $value) {
             if (in_array($key, $allowedColumns) && in_array($key, $this->getTableColumns()) && $key != $this->prKey) {
                 $this->{$key} = $value;
+            } else if ($key == $this->prKey) {
+                continue;
             } else {
                 throw new ColumnNotAllowed("`{$key} is not in the AllowedColumns!");
             }
@@ -71,9 +76,33 @@ class Model
     public static function find($id)
     {
         $className = get_called_class();
-        $model = new $className();
-        $model->findByValue([$model->getPrKey() => $id]);
-        return $model;
+        if (class_exists($className)) {
+            $model = new $className([]);
+            $model->findByValue([$model->getPrKey() => $id]);
+            return $model;
+        } else {
+            throw new ClassDoesntExist("Model: {$className} doesn't exist");
+        }
+    }
+
+    public function getAll()
+    {
+        $className = get_called_class();
+        if (class_exists($className)) {
+            $model = new $className([]);
+            $modelCollection = array();
+            $sql = $this->query
+                ->select($model->table, '*')
+                ->getQuery();
+            $result = $this->db->query($sql);
+            foreach ($result as $key => $value) {
+                $model = new $className($value);
+                array_push($modelCollection, $model);
+            }
+            return $modelCollection;
+        } else {
+            throw new ClassDoesntExist("Model: {$className} doesn't exist");
+        }
     }
 
     public function findByValue(array $values)

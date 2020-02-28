@@ -6,6 +6,13 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <style>
+@import url('https://fonts.googleapis.com/css?family=Trade+Winds&display=swap');
+@font-face {
+font-family: 'Savage';
+font-style: normal;
+font-weight: normal;
+src: local('Savage'), url('href="/resources/css/404style.css/fonts/Savage.woff') format('woff');
+}
 body,h1 {
     font-family: "Raleway", sans-serif;
     }
@@ -17,6 +24,10 @@ body, html {
   min-height: 100%;
   background-position: center;
   background-size: cover;
+}
+
+#v{
+  font-family: 'Trade Winds', sans-serif;
 }
 </style>
 <body>

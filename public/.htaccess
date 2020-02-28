@@ -1,7 +1,9 @@
 Options -MultiViews
 RewriteEngine On
-RewriteBase /
-# Example when using on windows: /MVC/public/ 
+RewriteCond %{QUERY_STRING} os=windows
+RewriteRule . /MVC/public/index.php [L] #change based on your path if you are using windows as a server
+RewriteCond %{QUERY_STRING} os=linux
+RewriteRule . /index.php [L]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 
