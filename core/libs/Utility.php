@@ -14,7 +14,7 @@ class Utility
      */
     public static function hashPassword(string $password, string $hashFunction = 'password_hash', array $options = [])
     {
-        if (count($options) == 0 && $hashFunction == 'password_hash') {
+        if (count($options) === 0 && $hashFunction == 'password_hash') {
             $options = [PASSWORD_BCRYPT, [12]]; // default options
         }
         if (function_exists($hashFunction)) {
