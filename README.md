@@ -5,12 +5,17 @@ Example controller for model "UserModel":
 <?php
 namespace app\controllers;
 
-use app\models\User;
+use core\Controller\BaseController;
 
-class Home {
-    function index(){
-        $user = new User([]);
-        return ['',[]];
+class Home extends BaseController
+{
+
+    function index()
+    {
+        return ['welcome.tpl', [
+            'framework' => 'ca<span id="v">V</span>eman',
+            'title' => 'caVeman'
+        ]];
     }
 }
 ```
@@ -35,6 +40,13 @@ class User extends Model {
 }
 ```
 Models must inherit the base Model. Including is not needed
+
+find() and getAll() methods:
+---
+```
+$user = User::find(7);//returns a new User model with id 7
+$userCollection = User::getAll();//returns all users as objects
+```
 
 Config Files
 ===
@@ -110,3 +122,53 @@ Utility::hash('randomPassword',[
     'threads'=>4
 ]);
 ```
+Query Builder Examples:
+===
+
+Select:
+---
+```
+Registry::get('QueryBuilder')
+            ->select('users', ['email'])
+            ->orderBy(['email LIMIT 1'])
+            ->getQuery();
+// SELECT email FROM `users` ORDER BY email LIMIT 1;
+```
+
+Update:
+---
+```
+$sql = Registry::get('QueryBuilder')
+			->update('users')
+            ->set(['name'=>'Georgi'])
+            ->where(
+                $this->Registry::get('QueryBuilder')->whereAnd("id = 1")
+            )
+            ->getQuery();
+// UPDATE `users` SET name=? where id = 1;
+Registry::get('Database')->query($sql,['Georgi'])//here you bind your parameters
+```
+
+Insert:
+---
+```
+$sql = Registry::get('QueryBuilder')
+			->insert('users')
+            ->values(['name'=>'Georgi'])
+            ->getQuery();
+// INSERT INTO `users` ('name') VALUES ('?');
+Registry::get('Database')->query($sql,['Georgi'])//here you bind your parameters
+```
+
+Delete:
+---
+```
+$sql = Registry::get('QueryBuilder')
+			->delete('users')
+            ->->where(
+                $this->Registry::get('QueryBuilder')->whereAnd("id = 1")
+            )
+            ->getQuery();
+// DELETE FROM `users` WHERE id = 1;
+```
+
