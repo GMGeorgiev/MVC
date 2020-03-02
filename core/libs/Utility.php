@@ -3,8 +3,6 @@
 namespace core\libs;
 
 use core\Hasher\BcryptHasher;
-use core\Registry;
-use Exception;
 
 class Utility
 {

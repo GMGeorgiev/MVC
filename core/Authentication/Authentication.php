@@ -6,6 +6,7 @@ namespace core\Authentication;
 use core\Registry;
 use core\Authentication\AuthenticationInterface;
 use app\models\User;
+use core\libs\Utility;
 
 class Authentication implements AuthenticationInterface
 {
@@ -40,7 +41,7 @@ class Authentication implements AuthenticationInterface
                 Registry::get('QueryBuilder')->whereAnd("{$this->usersCol} = '{$user->email}'")
             )->getQuery();
         $queryResult = Registry::get('Database')->query($sql);
-        if ($queryResult && password_verify($request->getProperty($this->passwordCol), $queryResult[0][$this->passwordCol])) {
+        if ($queryResult && Utility::check($request->getProperty($this->passwordCol), $queryResult[0][$this->passwordCol])) {
             $_SESSION['userid'] = $queryResult[0][$user->getPrKey()];
         } else {
             Registry::get('Response')->setHeaderLocation('home/index');
