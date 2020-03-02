@@ -1,3 +1,5 @@
+<centered><h1>caVeman</h1></centered>
+
 Controllers
 ===
 Example controller for model "UserModel":
