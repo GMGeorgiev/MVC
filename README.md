@@ -5,12 +5,17 @@ Example controller for model "UserModel":
 <?php
 namespace app\controllers;
 
-use app\models\User;
+use core\Controller\BaseController;
 
-class Home {
-    function index(){
-        $user = new User([]);
-        return ['',[]];
+class Home extends BaseController
+{
+
+    function index()
+    {
+        return ['welcome.tpl', [
+            'framework' => 'ca<span id="v">V</span>eman',
+            'title' => 'caVeman'
+        ]];
     }
 }
 ```
