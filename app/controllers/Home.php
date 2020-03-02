@@ -7,7 +7,6 @@
 namespace app\controllers;
 
 use core\Controller\BaseController;
-use core\libs\Utility;
 
 class Home extends BaseController
 {
