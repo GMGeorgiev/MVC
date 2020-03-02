@@ -1,5 +1,3 @@
-<div style="text-align:center"><h1>caVeman</h1></div>
-
 Controllers
 ===
 Example controller for model "UserModel":
