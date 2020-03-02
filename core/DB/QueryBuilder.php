@@ -129,7 +129,7 @@ class QueryBuilder implements QueryBuilderInterface
     public function where(...$args)
     {
         if (isset($args) && $this->validateQuery('select', 'insert', 'update', 'delete')) {
-            $this->query = $this->query . " " . "WHERE " . "1";
+            $this->query = $this->query . " WHERE 1";
             foreach ($args as $value) {
                 $this->query = $this->query . " " . $value;
             }
