@@ -124,7 +124,7 @@ $sql = Registry::get('QueryBuilder')
             )
             ->getQuery();
 // UPDATE `users` SET name=? where id = 1;
-Registry::get('Database')->query($sql,['Georgi'])//here you bing your parameters
+Registry::get('Database')->query($sql,['Georgi'])//here you bind your parameters
 ```
 
 Insert:
@@ -135,7 +135,7 @@ $sql = Registry::get('QueryBuilder')
             ->values(['name'=>'Georgi'])
             ->getQuery();
 // INSERT INTO `users` ('name') VALUES ('?');
-Registry::get('Database')->query($sql,['Georgi'])//here you bing your parameters
+Registry::get('Database')->query($sql,['Georgi'])//here you bind your parameters
 ```
 
 Delete:
