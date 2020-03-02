@@ -1,4 +1,4 @@
-<centered><h1>caVeman</h1></centered>
+<h1 align="center">caVeman</h1>
 
 Controllers
 ===
