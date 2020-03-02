@@ -11,7 +11,9 @@ class BcryptHasher implements HasherInterface
     private $memory = 1024;
     private $time = 2;
     private $threads = 2;
-
+    /**
+     * @param array $options Specify options as an associative array example: 'cost'=>10, 'memory'=> 1024, 'time'=>2, 'threads'=>2
+     */
     public function __construct(array $options = [])
     {
         $this->cost = $options['cost'] ?? $this->cost;
