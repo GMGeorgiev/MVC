@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2020 at 03:23 PM
+-- Generation Time: Feb 28, 2020 at 02:34 PM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.3.12
 
@@ -25,17 +25,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shirts`
---
-
-CREATE TABLE `shirts` (
-  `name` varchar(40) DEFAULT NULL,
-  `size` enum('x-small','small','medium','large','x-large') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -51,7 +40,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `diary`) VALUES
-(1, 'test@test.test', 'asdasd', 'sdasdasdasd');
+(1, 'test@test.test', 'asdasd', 'sdasdasdasd'),
+(19, 'asd@asd.asd', 'asdasd', 'asdasd');
 
 --
 -- Indexes for dumped tables
@@ -71,7 +61,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

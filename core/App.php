@@ -14,8 +14,8 @@ class App
 
     private function __construct()
     {
-        $this->router = $this->getRouter();
-        $this->request = $this->getRequest();
+        $this->router = Registry::get('Router');
+        $this->request = Registry::get('Request');
     }
 
     public static function getInstance()
@@ -24,15 +24,6 @@ class App
             self::$instance = new App();
         }
         return self::$instance;
-    }
-
-    public function getRouter()
-    {
-        return Registry::get('Router');
-    }
-    public function getRequest()
-    {
-        return Registry::get('Request');
     }
 
     private function isUnpackable($content)

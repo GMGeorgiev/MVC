@@ -128,14 +128,10 @@ class QueryBuilder implements QueryBuilderInterface
 
     public function where(...$args)
     {
-        if (isset($args)) {
-            if ($this->validateQuery('select', 'insert', 'update', 'delete')) {
-                $this->query = $this->query . " " . "WHERE " . "1";
-                foreach ($args as $value) {
-                    $this->query = $this->query . " " . $value;
-                }
-            } else {
-                throw new Exception("Cannot use WHERE clause without a Query Statement");
+        if (isset($args) && $this->validateQuery('select', 'insert', 'update', 'delete')) {
+            $this->query = $this->query . " WHERE 1";
+            foreach ($args as $value) {
+                $this->query = $this->query . " " . $value;
             }
         } else {
             throw new Exception("Arguments not set");
@@ -159,6 +155,41 @@ class QueryBuilder implements QueryBuilderInterface
         } else {
             throw new Exception("Parameter not set");
         }
+    }
+
+    public function groupBy(array $params)
+    {
+        if (isset($params) && $this->validateQuery('select')) {
+            $params = implode(',', $params);
+            $this->query = $this->query . 'GROUP BY ' . $params;
+        } else {
+            throw new Exception("Parameters not set");
+        }
+        return $this;
+    }
+
+    public function having(...$args)
+    {
+        if (isset($args) && $this->validateQuery('select', 'group by')) {
+            $this->query = $this->query . " " . "HAVING ";
+            foreach ($args as $value) {
+                $this->query = $this->query . " " . $value;
+            }
+        } else {
+            throw new Exception("Arguments not set");
+        }
+        return $this;
+    }
+
+    public function orderBy(array $params)
+    {
+        if (isset($params) && $this->validateQuery('select')) {
+            $params = implode(',', $params);
+            $this->query = $this->query . ' ORDER BY ' . $params;
+        } else {
+            throw new Exception("Parameters not set");
+        }
+        return $this;
     }
 
     private function validateQuery(...$args)

@@ -14,8 +14,7 @@ use core\Config\Config,
     core\Response\Response,
     core\Router\Router,
     core\View\View,
-    core\Authentication\Authentication,
-    core\Utility\Utility;
+    core\Authentication\Authentication;
 
 //Set services here
 
