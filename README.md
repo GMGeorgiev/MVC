@@ -87,7 +87,7 @@ Load Components
 ===
 In loadComponents.php all new services registered in the Registry must be appended in use:
 
-```php
+```
 use core\Config\Config,
     core\Registry,
     core\App,
