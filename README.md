@@ -127,7 +127,7 @@ Example using Cryptography():
 $hasher = new Cryptography(new BcryptHasher([,options));
 $hasher->hash("some password");
 $hasher->setHasher(new SomeOtherHasher([,options))
-$hasher->hash
+$hasher->hash("some other password");
 ```
 Query Builder Examples:
 ===
