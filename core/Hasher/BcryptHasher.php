@@ -31,7 +31,7 @@ class BcryptHasher implements HasherInterface
             'time' => $this->time,
             'threads' => $this->threads
         ]);
-        if ($hash == false) {
+        if ($hash === false) {
             throw new Exception("Bcrypt hashing failed!");
         }
         return $hash;
@@ -39,7 +39,7 @@ class BcryptHasher implements HasherInterface
 
     public function checkPassword(string $password, string $hashedPassword)
     {
-        if (password_get_info($hashedPassword)['algoName'] != 'bcrypt') {
+        if (password_get_info($hashedPassword)['algoName'] !== 'bcrypt') {
             throw new Exception("This password doesn't use the Bcrypt algorithm!");
         }
         return password_verify($password, $hashedPassword);
