@@ -103,7 +103,7 @@ use core\Config\Config,
 Hashing
 ===
 This framework uses **bcrypt** hashing with default options. To use custom options you must specify them in an associative array
- when using Hash::hash() :
+ when using Hash::hash(). Hashing algorythms can be changed with using Cryptography directly and later changed with setHasher(HasherInterface $hasher) method:
 
 ```
 Hash::hash($password, $options = []);
@@ -120,6 +120,14 @@ Hash::hash('randomPassword',[
     'time'=>4,
     'threads'=>4
 ]);
+```
+Example using Cryptography():
+---
+```
+$hasher = new Cryptography(new BcryptHasher([,options));
+$hasher->hash("some password");
+$hasher->setHasher(new SomeOtherHasher([,options))
+$hasher->hash
 ```
 Query Builder Examples:
 ===
