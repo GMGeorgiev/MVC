@@ -97,17 +97,16 @@ use core\Config\Config,
     core\Response\Response,
     core\Router\Router,
     core\View\View,
-    core\Authentication\Authentication,
-    core\Utility\Utility;
+    core\Authentication\Authentication;
 ```
 
 Hashing
 ===
 This framework uses **bcrypt** hashing with default options. To use custom options you must specify them in an associative array
- when using Utility with ::hash :
+ when using Hash::hash() :
 
 ```
-Utility::hash($password, $options = []);
+Hash::hash($password, $options = []);
 //Default options:
 //private $cost = 10;
 //private $memory = 1024;
@@ -115,7 +114,7 @@ Utility::hash($password, $options = []);
 //private $threads = 2;
 
 Example with options:
-Utility::hash('randomPassword',[
+Hash::hash('randomPassword',[
     'cost'=>12,
     'memory'=>2048,
     'time'=>4,
