@@ -75,6 +75,9 @@ class Database implements DatabaseInterface
         $query = $this->con->prepare($sql);
         if ($query->execute() && class_exists($model)) {
             $this->result = $query->fetchAll(PDO::FETCH_CLASS, $model);
+            if (count($this->result) == 1) {
+                $this->result = $this->result[0];
+            }
         } else {
             throw new Exception("Query Execution Failed");
         }

@@ -25,9 +25,9 @@ class Model
         $this->setPropertyValues($data);
     }
 
-    private function tableSetter()
+    private static function tableSetter()
     {
-        $className = explode('\\', get_class($this));
+        $className = explode('\\', get_called_class());
         $table = strtolower(Plural::pluralize(end($className)));
         return $table;
     }
@@ -83,11 +83,10 @@ class Model
     public static function getAll()
     {
         $className = get_called_class();
-        $model = new $className([]);
         $sql = Registry::get('QueryBuilder')
-            ->select($model->table, '*')
+            ->select(self::tableSetter(), '*')
             ->getQuery();
-        $models = $model->db->fetchObject($sql, $className);
+        $models = Registry::get('Database')->fetchObject($sql, $className);
 
         return $models;
     }
@@ -99,13 +98,12 @@ class Model
         foreach ($values as $key => $value) {
             $whereArguments .= "AND `{$key}` = '{$value}'";
         }
-        $model = new $className([]);
-        $sql = $model->query
-            ->select($model->table, "*")
+        $sql = Registry::get('QueryBuilder')
+            ->select(self::tableSetter(), "*")
             ->where($whereArguments)
             ->getQuery();
 
-        $result = $model->db->fetchObject($sql, $className);
+        $result = Registry::get('Database')->fetchObject($sql, $className);
         return $result;
     }
 
