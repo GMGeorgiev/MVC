@@ -7,7 +7,6 @@ use core\Exceptions\ClassDoesntExist;
 use core\Exceptions\ColumnNotAllowed;
 use core\Registry;
 use core\libs\Plural;
-use Exception;
 
 class Model
 {
@@ -76,60 +75,40 @@ class Model
     public static function find($id)
     {
         $className = get_called_class();
-        if (class_exists($className)) {
-            $model = new $className([]);
-            $model->findByValue([$model->getPrKey() => $id]);
-            return $model;
-        } else {
-            throw new ClassDoesntExist("Model: {$className} doesn't exist");
-        }
+        $model = new $className([]);
+        $model = self::findByValue([$model->getPrKey() => $id]);
+        return $model;
     }
 
     public static function getAll()
     {
         $className = get_called_class();
-        if (class_exists($className)) {
-            $model = new $className([]);
-            $modelCollection = array();
-            $sql = Registry::get('QueryBuilder')
-                ->select($model->table, '*')
-                ->getQuery();
-            $result = Registry::get('Database')->query($sql);
-            foreach ($result as $value) {
-                $model = new $className($value);
-                array_push($modelCollection, $model);
-            }
-            return $modelCollection;
-        } else {
-            throw new ClassDoesntExist("Model: {$className} doesn't exist");
-        }
+        $model = new $className([]);
+        $sql = Registry::get('QueryBuilder')
+            ->select($model->table, '*')
+            ->getQuery();
+        $models = $model->db->fetchObject($sql, $className);
+
+        return $models;
     }
 
-    public function findByValue(array $values)
+    public static function findByValue(array $values)
     {
+        $className = get_called_class();
         $whereArguments = '';
         foreach ($values as $key => $value) {
             $whereArguments .= "AND `{$key}` = '{$value}'";
         }
-        $sql = $this->query
-            ->select($this->table, "*")
+        $model = new $className([]);
+        $sql = $model->query
+            ->select($model->table, "*")
             ->where($whereArguments)
             ->getQuery();
 
-        $result = $this->db->query($sql);
-        if (count($result) > 0) {
-            $this->setPropertyValues(reset($result));
-            $this->setId(reset($result));
-        }
-        return $this;
+        $result = $model->db->fetchObject($sql, $className);
+        return $result;
     }
 
-    private function setId($result)
-    {
-        if (isset($result[$this->prKey])) {
-            $this->{$this->prKey} = $result[$this->prKey];
-        }
-    }
     public function getPrKey()
     {
         return $this->prKey;
