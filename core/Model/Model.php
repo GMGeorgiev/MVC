@@ -18,18 +18,17 @@ class Model
 
     public function __construct(array $data = [])
     {
-        $this->table = $this->tableSetter();
+        $this->table = $this->tableName();
         $this->query = new QueryBuilder();
         $this->db = Registry::get('Database');
         $this->{$this->prKey} = 0;
         $this->setPropertyValues($data);
     }
 
-    private static function tableSetter()
+    private static function tableName()
     {
         $className = explode('\\', get_called_class());
-        $table = strtolower(Plural::pluralize(end($className)));
-        return $table;
+        return strtolower(Plural::pluralize(end($className)));
     }
 
     protected function getTableColumns()
@@ -76,19 +75,16 @@ class Model
     {
         $className = get_called_class();
         $model = new $className([]);
-        $model = self::findByValue([$model->getPrKey() => $id]);
-        return $model;
+        return self::findByValue([(new $className())->getPrKey() => $id]);
     }
 
     public static function getAll()
     {
         $className = get_called_class();
         $sql = Registry::get('QueryBuilder')
-            ->select(self::tableSetter(), '*')
+            ->select(self::tableName(), '*')
             ->getQuery();
-        $models = Registry::get('Database')->fetchObject($sql, $className);
-
-        return $models;
+        return Registry::get('Database')->fetchObject($sql, $className);
     }
 
     public static function findByValue(array $values)
@@ -99,12 +95,11 @@ class Model
             $whereArguments .= "AND `{$key}` = '{$value}'";
         }
         $sql = Registry::get('QueryBuilder')
-            ->select(self::tableSetter(), "*")
+            ->select(self::tableName(), "*")
             ->where($whereArguments)
             ->getQuery();
 
-        $result = Registry::get('Database')->fetchObject($sql, $className);
-        return $result;
+        return Registry::get('Database')->fetchObject($sql, $className);
     }
 
     public function getPrKey()
