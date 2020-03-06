@@ -4,6 +4,7 @@ namespace core\DB;
 
 use core\Registry;
 use core\DB\DatabaseInterface;
+use core\Model\Model;
 use Exception;
 use PDO;
 use PDOException;
@@ -58,27 +59,28 @@ class Database implements DatabaseInterface
         return $this->con;
     }
 
-    public function query($sql, $params = [])
+    public function fetchResults($sql, $params = [])
     {
         $query = $this->con->prepare($sql);
         if ($query->execute($params)) {
-            if ($this->resultFlag($sql)) {
-                $this->result = $query->fetchAll(PDO::FETCH_ASSOC);
-            } else {
-                $this->result = "Rows affected: " . $query->rowCount();
-            }
+            $this->result = $query->fetchAll(PDO::FETCH_ASSOC);
         } else {
             throw new Exception("Query Execution Failed");
         }
         return $this->result;
     }
 
-    private function resultFlag($sql)
+    public function fetchObject($sql, string $model)
     {
-        $result = false;
-        if (strpos($sql, 'SELECT') === 0) {
-            $result = true;
+        $query = $this->con->prepare($sql);
+        if ($query->execute() && class_exists($model)) {
+            $this->result = $query->fetchAll(PDO::FETCH_CLASS, $model);
+            if (count($this->result) == 1) {
+                $this->result = reset($this->result);
+            }
+        } else {
+            throw new Exception("Query Execution Failed");
         }
-        return $result;
+        return $this->result;
     }
 }
